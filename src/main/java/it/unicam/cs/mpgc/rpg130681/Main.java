@@ -2,8 +2,8 @@ package it.unicam.cs.mpgc.rpg130681;
 
 import it.unicam.cs.mpgc.rpg130681.gamelogic.Camera;
 import it.unicam.cs.mpgc.rpg130681.gamelogic.InputManager;
-import it.unicam.cs.mpgc.rpg130681.model.entities.GameObject;
-import it.unicam.cs.mpgc.rpg130681.model.entities.Ship;
+import it.unicam.cs.mpgc.rpg130681.model.objects.GameObject;
+import it.unicam.cs.mpgc.rpg130681.model.objects.Ship;
 import it.unicam.cs.mpgc.rpg130681.utils.Vector2;
 import javafx.animation.AnimationTimer;
 import javafx.application.Application;
@@ -13,7 +13,7 @@ import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 import javafx.stage.Stage;
 
-public class Main extends Application {
+/*public class Main extends Application {
 
     @Override
     public void start(Stage stage) {
@@ -152,4 +152,4 @@ public class Main extends Application {
 
     }
 
-}
+}*/

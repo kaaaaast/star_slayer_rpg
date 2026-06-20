@@ -1,4 +1,4 @@
-package it.unicam.cs.mpgc.rpg130681.model.entities;
+package it.unicam.cs.mpgc.rpg130681.model.objects;
 
 import it.unicam.cs.mpgc.rpg130681.utils.Targetable;
 import it.unicam.cs.mpgc.rpg130681.utils.Vector2;
@@ -13,4 +13,7 @@ public class Star extends GameObject implements Targetable {
         this.health_points = health_points;
         this.diameter = diameter;
     }
+
+
+
 }

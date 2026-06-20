@@ -1,6 +1,6 @@
 package it.unicam.cs.mpgc.rpg130681.utils;
 
-import it.unicam.cs.mpgc.rpg130681.model.entities.GameObject;
+import it.unicam.cs.mpgc.rpg130681.model.objects.GameObject;
 
 import java.util.Collection;
 

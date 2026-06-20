@@ -1,6 +1,5 @@
-package it.unicam.cs.mpgc.rpg130681.model.entities;
+package it.unicam.cs.mpgc.rpg130681.model.objects;
 
-import it.unicam.cs.mpgc.rpg130681.utils.GameUtils;
 import it.unicam.cs.mpgc.rpg130681.utils.Vector2;
 
 public class Projectile extends GameObject{
