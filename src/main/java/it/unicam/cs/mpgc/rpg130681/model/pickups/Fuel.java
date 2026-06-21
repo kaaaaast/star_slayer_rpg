@@ -4,29 +4,27 @@ import it.unicam.cs.mpgc.rpg130681.model.entities.Ship;
 import it.unicam.cs.mpgc.rpg130681.model.stats.ResourceType;
 import it.unicam.cs.mpgc.rpg130681.utils.Vector2;
 
-public class MedKit extends PickUp{
-
-    public MedKit(Vector2 position, float pickupRadius, float lifeTime, Tier tier) {
+public class Fuel extends PickUp {
+    public Fuel(Vector2 position, float pickupRadius, float lifeTime, Tier tier) {
         super(position, pickupRadius, lifeTime, tier);
     }
 
     @Override
     public void on_pickup(Ship ship) {
-
-        float max_hp = ship.getResource(ResourceType.HEALTH).get_max_value();
+        float current_hp = ship.getResource(ResourceType.FUEL).get_current_value();
 
         switch (getTier()) {
 
             case SMALL:
-                ship.getResource(ResourceType.HEALTH).increase_resource_by(max_hp*0.2f);
+                ship.getResource(ResourceType.FUEL).increase_resource_by(current_hp*1.2f);
                 break;
 
             case MEDIUM:
-                ship.getResource(ResourceType.HEALTH).increase_resource_by(max_hp*0.5f);
+                ship.getResource(ResourceType.FUEL).increase_resource_by(current_hp*1.5f);
                 break;
 
             case LARGE:
-                ship.getResource(ResourceType.HEALTH).complete_refill();
+                ship.getResource(ResourceType.FUEL).complete_refill();
                 break;
         }
     }

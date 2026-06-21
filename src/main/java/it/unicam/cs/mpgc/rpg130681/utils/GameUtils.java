@@ -1,6 +1,6 @@
 package it.unicam.cs.mpgc.rpg130681.utils;
 
-import it.unicam.cs.mpgc.rpg130681.model.objects.GameObject;
+import it.unicam.cs.mpgc.rpg130681.model.entities.GameObject;
 
 import java.util.Collection;
 
@@ -9,7 +9,7 @@ public class GameUtils {
 
 
     //ricerca l'entità più vicina (alla ship), utile principalmente
-    //per la meccanica del proiettile che ha traiettoria automatica verso l'entità tarketable più vicina a esso.
+    //per la meccanica del proiettile che ha traiettoria automatica verso l'entità targetable più vicina a esso.
     public static <T extends GameObject & Targetable> T getClosestEntity(GameObject src, Collection<T> objects) {
 
         T closest_found = null;

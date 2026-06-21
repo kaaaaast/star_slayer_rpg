@@ -1,4 +1,4 @@
-package it.unicam.cs.mpgc.rpg130681.model.objects;
+package it.unicam.cs.mpgc.rpg130681.model.entities;
 
 import it.unicam.cs.mpgc.rpg130681.utils.Targetable;
 import it.unicam.cs.mpgc.rpg130681.utils.Vector2;
@@ -12,10 +12,10 @@ public class Planet extends GameObject implements Targetable {
     private float diameter;
     private float angular_speed;
     private float orbit_radius;
-    private int health_points;
+    private float health_points;
     private float angle;
 
-    public Planet (Star parent, float diameter, float angularSpeed, float radius, int health_points) {
+    public Planet (Star parent, float diameter, float angularSpeed, float radius, float health_points) {
         if (diameter <= 0 || radius <= 0 || angularSpeed <= 0 || health_points <= 0) {
             throw new IllegalArgumentException("Parametri di creazione del pianeta invalidi.");
         }

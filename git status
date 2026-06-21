@@ -1,0 +1,630 @@
+[1mdiff --git a/src/main/java/it/unicam/cs/mpgc/rpg130681/Main.java b/src/main/java/it/unicam/cs/mpgc/rpg130681/Main.java[m
+[1mindex beba3d1..3162613 100644[m
+[1m--- a/src/main/java/it/unicam/cs/mpgc/rpg130681/Main.java[m
+[1m+++ b/src/main/java/it/unicam/cs/mpgc/rpg130681/Main.java[m
+[36m@@ -1,155 +1,188 @@[m
+ package it.unicam.cs.mpgc.rpg130681;[m
+ [m
+ import it.unicam.cs.mpgc.rpg130681.gamelogic.Camera;[m
+[31m-import it.unicam.cs.mpgc.rpg130681.gamelogic.InputManager;[m
+[31m-import it.unicam.cs.mpgc.rpg130681.model.objects.GameObject;[m
+[31m-import it.unicam.cs.mpgc.rpg130681.model.objects.Ship;[m
+[32m+[m[32mimport it.unicam.cs.mpgc.rpg130681.model.entities.Planet;[m
+[32m+[m[32mimport it.unicam.cs.mpgc.rpg130681.model.entities.Ship;[m
+[32m+[m[32mimport it.unicam.cs.mpgc.rpg130681.model.entities.Star;[m
+[32m+[m[32mimport it.unicam.cs.mpgc.rpg130681.model.stats.*;[m
+ import it.unicam.cs.mpgc.rpg130681.utils.Vector2;[m
+ import javafx.animation.AnimationTimer;[m
+ import javafx.application.Application;[m
+ import javafx.scene.Scene;[m
+ import javafx.scene.layout.Pane;[m
+ import javafx.scene.paint.Color;[m
+[32m+[m[32mimport javafx.scene.shape.Circle;[m
+ import javafx.scene.shape.Rectangle;[m
+ import javafx.stage.Stage;[m
+ [m
+[31m-/*public class Main extends Application {[m
+[32m+[m[32mimport java.util.HashMap;[m
+[32m+[m[32mimport java.util.Map;[m
+[32m+[m
+[32m+[m[32mpublic class Main extends Application {[m
+[32m+[m
+[32m+[m[32m    private static final int WIDTH = 1920;[m
+[32m+[m[32m    private static final int HEIGHT = 1080;[m
+ [m
+     @Override[m
+     public void start(Stage stage) {[m
+ [m
+[31m-        // MODEL[m
+[32m+[m[32m        Pane root = new Pane();[m
+[32m+[m
+[32m+[m[32m        Scene scene = new Scene(root, WIDTH, HEIGHT);[m
+[32m+[m
+[32m+[m[32m        //---------------------------[m
+[32m+[m[32m        // Ship stats[m
+[32m+[m[32m        //---------------------------[m
+[32m+[m
+[32m+[m[32m        Map<StatType, Float> shipStatsMap = new HashMap<>();[m
+[32m+[m
+[32m+[m[32m        shipStatsMap.put(StatType.SPEED, 5f);[m
+[32m+[m[32m        shipStatsMap.put(StatType.FIRE_RATE, 1f);[m
+[32m+[m[32m        shipStatsMap.put(StatType.FUELTANK_SIZE, 100f);[m
+[32m+[m[32m        shipStatsMap.put(StatType.MINING_POWER, 1f);[m
+[32m+[m
+[32m+[m[32m        ShipStats shipStats = new ShipStats(shipStatsMap);[m
+[32m+[m
+[32m+[m[32m        //---------------------------[m
+[32m+[m[32m        // Ship resources[m
+[32m+[m[32m        //---------------------------[m
+[32m+[m
+[32m+[m[32m        Map<ResourceType, ResourceStat> resources = new HashMap<>();[m
+[32m+[m
+[32m+[m[32m        resources.put(ResourceType.HEALTH, new ResourceStat(100));[m
+[32m+[m[32m        resources.put(ResourceType.FUEL, new ResourceStat(100));[m
+[32m+[m
+[32m+[m[32m        //---------------------------[m
+[32m+[m[32m        // Ship[m
+[32m+[m[32m        //---------------------------[m
+ [m
+         Ship ship = new Ship([m
+[31m-                5,[m
+[31m-                new Vector2(0,0)[m
+[32m+[m[32m                new Vector2(0,0),[m
+[32m+[m[32m                resources,[m
+[32m+[m[32m                shipStats[m
+         );[m
+ [m
+[31m-        GameObject planet = new GameObject([m
+[31m-                new Vector2(500,300)[m
+[31m-        ) {};[m
+[32m+[m[32m        //---------------------------[m
+[32m+[m[32m        // Camera[m
+[32m+[m[32m        //---------------------------[m
+[32m+[m
+[32m+[m[32m        Camera camera = new Camera(ship.getPosition());[m
+ [m
+[31m-        // CAMERA[m
+[32m+[m[32m        //---------------------------[m
+[32m+[m[32m        // Test planet[m
+[32m+[m[32m        //---------------------------[m
+[32m+[m
+[32m+[m[32m        Star star = new Star([m
+[32m+[m[32m                new Vector2(0, 0),[m
+[32m+[m[32m                500,[m
+[32m+[m[32m                1000[m
+[32m+[m[32m        );[m
+ [m
+[31m-        Camera camera = new Camera([m
+[31m-                ship.getPosition()[m
+[32m+[m[32m        Planet planet = new Planet([m
+[32m+[m[32m                star,[m
+[32m+[m[32m                100f,[m
+[32m+[m[32m                1f,[m
+[32m+[m[32m                1f,[m
+[32m+[m[32m                100f[m
+         );[m
+ [m
+[31m-        // VIEW[m
+[32m+[m[32m        //---------------------------[m
+[32m+[m[32m        // Graphics[m
+[32m+[m[32m        //---------------------------[m
+ [m
+[31m-        Rectangle shipView = new Rectangle(40,40);[m
+[32m+[m[32m        Rectangle shipView = new Rectangle(20,20);[m
+         shipView.setFill(Color.BLACK);[m
+ [m
+[31m-        Rectangle planetView = new Rectangle(100,100);[m
+[32m+[m[32m        Circle planetView = new Circle(50);[m
+         planetView.setFill(Color.BLUE);[m
+ [m
+[31m-        // ROOT[m
+[31m-[m
+[31m-        Pane root = new Pane();[m
+[31m-[m
+         root.getChildren().addAll([m
+                 planetView,[m
+                 shipView[m
+         );[m
+ [m
+[31m-        root.setFocusTraversable(true);[m
+[31m-[m
+[31m-        // INPUT[m
+[32m+[m[32m        //---------------------------[m
+[32m+[m[32m        // Mouse position[m
+[32m+[m[32m        //---------------------------[m
+ [m
+[31m-        root.setOnMouseMoved(event ->[m
+[32m+[m[32m        final double[] mouseX = {WIDTH / 2.0};[m
+[32m+[m[32m        final double[] mouseY = {HEIGHT / 2.0};[m
+ [m
+[31m-                InputManager.setMousePos([m
+[31m-                        new Vector2([m
+[31m-                                (float) event.getX(),[m
+[31m-                                (float) event.getY()[m
+[31m-                        )[m
+[31m-                )[m
+[32m+[m[32m        scene.setOnMouseMoved(event -> {[m
+[32m+[m[32m            mouseX[0] = event.getX();[m
+[32m+[m[32m            mouseY[0] = event.getY();[m
+[32m+[m[32m        });[m
+ [m
+[31m-        );[m
+[31m-[m
+[31m-        // GAME LOOP[m
+[32m+[m[32m        //---------------------------[m
+[32m+[m[32m        // Game loop[m
+[32m+[m[32m        //---------------------------[m
+ [m
+[31m-        AnimationTimer timer = new AnimationTimer() {[m
+[32m+[m[32m        new AnimationTimer() {[m
+ [m
+             @Override[m
+             public void handle(long now) {[m
+ [m
+[31m-                // mouse (screen) -> world[m
+[32m+[m[32m                //----------------------------------[m
+[32m+[m[32m                // Mouse screen -> world[m
+[32m+[m[32m                //----------------------------------[m
+ [m
+                 Vector2 mouseWorld =[m
+                         camera.screenToWorld([m
+[31m-                                InputManager.getMousePos()[m
+[32m+[m[32m                                new Vector2([m
+[32m+[m[32m                                        (float) mouseX[0],[m
+[32m+[m[32m                                        (float) mouseY[0][m
+[32m+[m[32m                                )[m
+                         );[m
+ [m
+[31m-                // movimento nave[m
+[32m+[m[32m                //----------------------------------[m
+[32m+[m[32m                // Move ship[m
+[32m+[m[32m                //----------------------------------[m
+ [m
+                 Vector2 direction =[m
+[31m-                        mouseWorld.sub([m
+[31m-                                ship.getPosition()[m
+[31m-                        );[m
+[32m+[m[32m                        mouseWorld.sub(ship.getPosition());[m
+ [m
+                 ship.move(direction);[m
+ [m
+[31m-                // la camera segue la nave[m
+[31m-[m
+[31m-                camera.setPosition([m
+[31m-                        ship.getPosition()[m
+[31m-                );[m
+[31m-[m
+[31m-                // posizione nave sullo schermo[m
+[32m+[m[32m                //----------------------------------[m
+[32m+[m[32m                // Camera follows ship[m
+[32m+[m[32m                //----------------------------------[m
+ [m
+[31m-                Vector2 shipScreenPos =[m
+[31m-                        camera.worldToScreen([m
+[31m-                                ship.getPosition()[m
+[31m-                        );[m
+[32m+[m[32m                camera.setPosition(ship.getPosition());[m
+ [m
+[31m-                shipView.setLayoutX([m
+[31m-                        shipScreenPos.x()[m
+[31m-                );[m
+[32m+[m[32m                //----------------------------------[m
+[32m+[m[32m                // Render ship[m
+[32m+[m[32m                //----------------------------------[m
+ [m
+[31m-                shipView.setLayoutY([m
+[31m-                        shipScreenPos.y()[m
+[31m-                );[m
+[32m+[m[32m                shipView.setX(WIDTH / 2.0 - 10);[m
+[32m+[m[32m                shipView.setY(HEIGHT / 2.0 - 10);[m
+ [m
+[31m-                // posizione pianeta sullo schermo[m
+[32m+[m[32m                //----------------------------------[m
+[32m+[m[32m                // Render planet[m
+[32m+[m[32m                //----------------------------------[m
+ [m
+[31m-                Vector2 planetScreenPos =[m
+[32m+[m[32m                Vector2 planetScreen =[m
+                         camera.worldToScreen([m
+                                 planet.getPosition()[m
+                         );[m
+ [m
+[31m-                planetView.setLayoutX([m
+[31m-                        planetScreenPos.x()[m
+[32m+[m[32m                planetView.setCenterX([m
+[32m+[m[32m                        planetScreen.x()[m
+                 );[m
+ [m
+[31m-                planetView.setLayoutY([m
+[31m-                        planetScreenPos.y()[m
+[32m+[m[32m                planetView.setCenterY([m
+[32m+[m[32m                        planetScreen.y()[m
+                 );[m
+ [m
+             }[m
+ [m
+[31m-        };[m
+[31m-[m
+[31m-        timer.start();[m
+[31m-[m
+[31m-        Scene scene = new Scene([m
+[31m-                root,[m
+[31m-                1920,[m
+[31m-                1080[m
+[31m-        );[m
+[31m-[m
+[31m-        stage.setTitle("Space RPG");[m
+[32m+[m[32m        }.start();[m
+ [m
+         stage.setScene(scene);[m
+[31m-[m
+[32m+[m[32m        stage.setTitle("Space RPG Test");[m
+         stage.show();[m
+[31m-[m
+     }[m
+ [m
+     public static void main(String[] args) {[m
+[31m-[m
+         launch(args);[m
+[31m-[m
+     }[m
+[31m-[m
+[31m-}*/[m
+\ No newline at end of file[m
+[32m+[m[32m}[m
+\ No newline at end of file[m
+[1mdiff --git a/src/main/java/it/unicam/cs/mpgc/rpg130681/model/entities/Asteroid.java b/src/main/java/it/unicam/cs/mpgc/rpg130681/model/entities/Asteroid.java[m
+[1mindex d99e1a9..6c1c7dd 100644[m
+[1m--- a/src/main/java/it/unicam/cs/mpgc/rpg130681/model/entities/Asteroid.java[m
+[1m+++ b/src/main/java/it/unicam/cs/mpgc/rpg130681/model/entities/Asteroid.java[m
+[36m@@ -1,4 +1,4 @@[m
+[31m-package it.unicam.cs.mpgc.rpg130681.model.objects;[m
+[32m+[m[32mpackage it.unicam.cs.mpgc.rpg130681.model.entities;[m
+ [m
+ public class Asteroid {[m
+ }[m
+[1mdiff --git a/src/main/java/it/unicam/cs/mpgc/rpg130681/model/entities/GameObject.java b/src/main/java/it/unicam/cs/mpgc/rpg130681/model/entities/GameObject.java[m
+[1mindex e8ca442..851b5a7 100644[m
+[1m--- a/src/main/java/it/unicam/cs/mpgc/rpg130681/model/entities/GameObject.java[m
+[1m+++ b/src/main/java/it/unicam/cs/mpgc/rpg130681/model/entities/GameObject.java[m
+[36m@@ -1,4 +1,4 @@[m
+[31m-package it.unicam.cs.mpgc.rpg130681.model.objects;[m
+[32m+[m[32mpackage it.unicam.cs.mpgc.rpg130681.model.entities;[m
+ [m
+ [m
+ import it.unicam.cs.mpgc.rpg130681.utils.Vector2;[m
+[1mdiff --git a/src/main/java/it/unicam/cs/mpgc/rpg130681/model/entities/Planet.java b/src/main/java/it/unicam/cs/mpgc/rpg130681/model/entities/Planet.java[m
+[1mindex 590a296..62f750f 100644[m
+[1m--- a/src/main/java/it/unicam/cs/mpgc/rpg130681/model/entities/Planet.java[m
+[1m+++ b/src/main/java/it/unicam/cs/mpgc/rpg130681/model/entities/Planet.java[m
+[36m@@ -1,4 +1,4 @@[m
+[31m-package it.unicam.cs.mpgc.rpg130681.model.objects;[m
+[32m+[m[32mpackage it.unicam.cs.mpgc.rpg130681.model.entities;[m
+ [m
+ import it.unicam.cs.mpgc.rpg130681.utils.Targetable;[m
+ import it.unicam.cs.mpgc.rpg130681.utils.Vector2;[m
+[36m@@ -12,10 +12,10 @@[m [mpublic class Planet extends GameObject implements Targetable {[m
+     private float diameter;[m
+     private float angular_speed;[m
+     private float orbit_radius;[m
+[31m-    private int health_points;[m
+[32m+[m[32m    private float health_points;[m
+     private float angle;[m
+ [m
+[31m-    public Planet (Star parent, float diameter, float angularSpeed, float radius, int health_points) {[m
+[32m+[m[32m    public Planet (Star parent, float diameter, float angularSpeed, float radius, float health_points) {[m
+         if (diameter <= 0 || radius <= 0 || angularSpeed <= 0 || health_points <= 0) {[m
+             throw new IllegalArgumentException("Parametri di creazione del pianeta invalidi.");[m
+         }[m
+[1mdiff --git a/src/main/java/it/unicam/cs/mpgc/rpg130681/model/entities/Projectile.java b/src/main/java/it/unicam/cs/mpgc/rpg130681/model/entities/Projectile.java[m
+[1mindex f193181..c99292b 100644[m
+[1m--- a/src/main/java/it/unicam/cs/mpgc/rpg130681/model/entities/Projectile.java[m
+[1m+++ b/src/main/java/it/unicam/cs/mpgc/rpg130681/model/entities/Projectile.java[m
+[36m@@ -1,4 +1,4 @@[m
+[31m-package it.unicam.cs.mpgc.rpg130681.model.objects;[m
+[32m+[m[32mpackage it.unicam.cs.mpgc.rpg130681.model.entities;[m
+ [m
+ import it.unicam.cs.mpgc.rpg130681.utils.Vector2;[m
+ [m
+[1mdiff --git a/src/main/java/it/unicam/cs/mpgc/rpg130681/model/entities/Ship.java b/src/main/java/it/unicam/cs/mpgc/rpg130681/model/entities/Ship.java[m
+[1mindex d6eb506..b397ef8 100644[m
+[1m--- a/src/main/java/it/unicam/cs/mpgc/rpg130681/model/entities/Ship.java[m
+[1m+++ b/src/main/java/it/unicam/cs/mpgc/rpg130681/model/entities/Ship.java[m
+[36m@@ -1,35 +1,48 @@[m
+[31m-package it.unicam.cs.mpgc.rpg130681.model.objects;[m
+[32m+[m[32mpackage it.unicam.cs.mpgc.rpg130681.model.entities;[m
+ import it.unicam.cs.mpgc.rpg130681.model.stats.ResourceStat;[m
+[32m+[m[32mimport it.unicam.cs.mpgc.rpg130681.model.stats.ResourceType;[m
+[32m+[m[32mimport it.unicam.cs.mpgc.rpg130681.model.stats.ShipStats;[m
+[32m+[m[32mimport it.unicam.cs.mpgc.rpg130681.model.stats.StatType;[m
+ import it.unicam.cs.mpgc.rpg130681.utils.Vector2;[m
+ [m
+[31m-public class Ship  extends  GameObject{[m
+[31m-    private float speed;[m
+[31m-    private ResourceStat health;[m
+[31m-    private ResourceStat fuel;[m
+[32m+[m[32mimport java.util.Map;[m
+ [m
+[32m+[m[32m//classe che rappresenta la navicella del giocatore[m
+[32m+[m[32mpublic class Ship extends GameObject{[m
+ [m
+[31m-    public Ship(float maxSpeed, Vector2 position){[m
+[32m+[m[32m    private Map<ResourceType, ResourceStat> ship_resources;[m
+[32m+[m[32m    private ShipStats ship_stats;[m
+[32m+[m
+[32m+[m[32m    public Ship(Vector2 position, Map<ResourceType, ResourceStat> resources, ShipStats stats){[m
+         super(position);[m
+[31m-        if (maxSpeed <= 0) {[m
+[31m-            throw new IllegalArgumentException("Parametri non validi per la creazione della navicella.");[m
+[31m-        }[m
+[31m-        this.speed = maxSpeed;[m
+[32m+[m[32m        this.ship_resources = resources;[m
+[32m+[m[32m        this.ship_stats = stats;[m
+     }[m
+ [m
+[31m-    public float getSpeed() {[m
+[31m-        return speed;[m
+[31m-    }[m
+[32m+[m[32m    /*[m
+[32m+[m[32m   Per scelta di design, la navicella segue il cursore del mouse, e più esso è lontano[m
+[32m+[m[32m   più la velocità aumenta. */[m
+[32m+[m[32m    public void move(Vector2 direction) {[m
+[32m+[m
+[32m+[m[32m        float distance = direction.length();[m
+ [m
+[31m-    public void setSpeed(float speed) {[m
+[31m-        this.speed = speed;[m
+[32m+[m[32m        //Dead-zone per non far muovere la navicella quando il mouse è molto vicino a essa[m
+[32m+[m[32m        if (distance < 20f) {[m
+[32m+[m[32m            return;[m
+[32m+[m[32m        }[m
+[32m+[m
+[32m+[m[32m        //Si imposta una distanza massima fra il cursore e la navicella, altrimenti si potrebbero ottenere velocità esagerate[m
+[32m+[m[32m        distance = Math.min(distance, 300f);[m
+[32m+[m
+[32m+[m[32m        float speed_multiplier = distance / 100f;[m
+[32m+[m[32m        setPosition(getPosition().add(direction.normalize().multiply(ship_stats.getStat(StatType.SPEED) * speed_multiplier)));[m
+     }[m
+ [m
+[31m-    /* Per muovere la navicella, prendiamo la sua posizione attuale e la spostiamo verso[m
+[31m-                    // la direzione con una certa velocità (normalizzando il vettore).[m
+[31m-                    // Per scelta di design, la navicella segue il cursore del mouse (più esso è lontano[m
+[31m-                    più la velocità aumenta) */[m
+[31m-    public void move(Vector2 direction) {[m
+[31m-        setPosition(getPosition().add(direction.normalize().multiply(speed)));[m
+[32m+[m[32m    public ShipStats getShip_stats() {[m
+[32m+[m[32m        return ship_stats;[m
+     }[m
+ [m
+[32m+[m[32m    public ResourceStat getResource(ResourceType type) {[m
+[32m+[m[32m        return ship_resources.get(type);[m
+[32m+[m[32m    }[m
+ }[m
+[1mdiff --git a/src/main/java/it/unicam/cs/mpgc/rpg130681/model/entities/Star.java b/src/main/java/it/unicam/cs/mpgc/rpg130681/model/entities/Star.java[m
+[1mindex 651f4eb..616c4ad 100644[m
+[1m--- a/src/main/java/it/unicam/cs/mpgc/rpg130681/model/entities/Star.java[m
+[1m+++ b/src/main/java/it/unicam/cs/mpgc/rpg130681/model/entities/Star.java[m
+[36m@@ -1,4 +1,4 @@[m
+[31m-package it.unicam.cs.mpgc.rpg130681.model.objects;[m
+[32m+[m[32mpackage it.unicam.cs.mpgc.rpg130681.model.entities;[m
+ [m
+ import it.unicam.cs.mpgc.rpg130681.utils.Targetable;[m
+ import it.unicam.cs.mpgc.rpg130681.utils.Vector2;[m
+[1mdiff --git a/src/main/java/it/unicam/cs/mpgc/rpg130681/model/pickups/Fuel.java b/src/main/java/it/unicam/cs/mpgc/rpg130681/model/pickups/Fuel.java[m
+[1mindex d57dd67..30c76e8 100644[m
+[1m--- a/src/main/java/it/unicam/cs/mpgc/rpg130681/model/pickups/Fuel.java[m
+[1m+++ b/src/main/java/it/unicam/cs/mpgc/rpg130681/model/pickups/Fuel.java[m
+[36m@@ -1,15 +1,31 @@[m
+ package it.unicam.cs.mpgc.rpg130681.model.pickups;[m
+ [m
+[31m-import it.unicam.cs.mpgc.rpg130681.model.objects.Ship;[m
+[32m+[m[32mimport it.unicam.cs.mpgc.rpg130681.model.entities.Ship;[m
+[32m+[m[32mimport it.unicam.cs.mpgc.rpg130681.model.stats.ResourceType;[m
+ import it.unicam.cs.mpgc.rpg130681.utils.Vector2;[m
+ [m
+[31m-public class FuelTank extends PickUp {[m
+[31m-    public FuelTank(Vector2 position, float pickupRadius, float lifeTime, Tier tier) {[m
+[32m+[m[32mpublic class Fuel extends PickUp {[m
+[32m+[m[32m    public Fuel(Vector2 position, float pickupRadius, float lifeTime, Tier tier) {[m
+         super(position, pickupRadius, lifeTime, tier);[m
+     }[m
+ [m
+     @Override[m
+     public void on_pickup(Ship ship) {[m
+[32m+[m[32m        float current_hp = ship.getResource(ResourceType.FUEL).get_current_value();[m
+ [m
+[32m+[m[32m        switch (getTier()) {[m
+[32m+[m
+[32m+[m[32m            case SMALL:[m
+[32m+[m[32m                ship.getResource(ResourceType.FUEL).increase_resource_by(current_hp*1.2f);[m
+[32m+[m[32m                break;[m
+[32m+[m
+[32m+[m[32m            case MEDIUM:[m
+[32m+[m[32m                ship.getResource(ResourceType.FUEL).increase_resource_by(current_hp*1.5f);[m
+[32m+[m[32m                break;[m
+[32m+[m
+[32m+[m[32m            case LARGE:[m
+[32m+[m[32m                ship.getResource(ResourceType.FUEL).complete_refill();[m
+[32m+[m[32m                break;[m
+[32m+[m[32m        }[m
+     }[m
+ }[m
+[1mdiff --git a/src/main/java/it/unicam/cs/mpgc/rpg130681/model/pickups/MedKit.java b/src/main/java/it/unicam/cs/mpgc/rpg130681/model/pickups/MedKit.java[m
+[1mindex e59134a..ff5cf6d 100644[m
+[1m--- a/src/main/java/it/unicam/cs/mpgc/rpg130681/model/pickups/MedKit.java[m
+[1m+++ b/src/main/java/it/unicam/cs/mpgc/rpg130681/model/pickups/MedKit.java[m
+[36m@@ -1,6 +1,7 @@[m
+ package it.unicam.cs.mpgc.rpg130681.model.pickups;[m
+ [m
+[31m-import it.unicam.cs.mpgc.rpg130681.model.objects.Ship;[m
+[32m+[m[32mimport it.unicam.cs.mpgc.rpg130681.model.entities.Ship;[m
+[32m+[m[32mimport it.unicam.cs.mpgc.rpg130681.model.stats.ResourceType;[m
+ import it.unicam.cs.mpgc.rpg130681.utils.Vector2;[m
+ [m
+ public class MedKit extends PickUp{[m
+[36m@@ -11,18 +12,21 @@[m [mpublic class MedKit extends PickUp{[m
+ [m
+     @Override[m
+     public void on_pickup(Ship ship) {[m
+[32m+[m
+[32m+[m[32m        float max_hp = ship.getResource(ResourceType.HEALTH).get_max_value();[m
+[32m+[m
+         switch (getTier()) {[m
+ [m
+             case SMALL:[m
+[31m-                ship.heal_ship((int) (ship.getMax_health_points() * 0.25f));[m
+[32m+[m[32m                ship.getResource(ResourceType.HEALTH).increase_resource_by(max_hp*0.2f);[m
+                 break;[m
+ [m
+             case MEDIUM:[m
+[31m-                ship.heal_ship((int) (ship.getMax_health_points() * 0.50f));[m
+[32m+[m[32m                ship.getResource(ResourceType.HEALTH).increase_resource_by(max_hp*0.5f);[m
+                 break;[m
+ [m
+             case LARGE:[m
+[31m-                ship.refill_hp();[m
+[32m+[m[32m                ship.getResource(ResourceType.HEALTH).complete_refill();[m
+                 break;[m
+         }[m
+     }[m
+[1mdiff --git a/src/main/java/it/unicam/cs/mpgc/rpg130681/model/pickups/PickUp.java b/src/main/java/it/unicam/cs/mpgc/rpg130681/model/pickups/PickUp.java[m
+[1mindex 21ad7be..60200d3 100644[m
+[1m--- a/src/main/java/it/unicam/cs/mpgc/rpg130681/model/pickups/PickUp.java[m
+[1m+++ b/src/main/java/it/unicam/cs/mpgc/rpg130681/model/pickups/PickUp.java[m
+[36m@@ -1,7 +1,7 @@[m
+ package it.unicam.cs.mpgc.rpg130681.model.pickups;[m
+ [m
+[31m-import it.unicam.cs.mpgc.rpg130681.model.objects.GameObject;[m
+[31m-import it.unicam.cs.mpgc.rpg130681.model.objects.Ship;[m
+[32m+[m[32mimport it.unicam.cs.mpgc.rpg130681.model.entities.GameObject;[m
+[32m+[m[32mimport it.unicam.cs.mpgc.rpg130681.model.entities.Ship;[m
+ import it.unicam.cs.mpgc.rpg130681.utils.Vector2;[m
+ [m
+ public abstract class PickUp extends GameObject {[m
+[1mdiff --git a/src/main/java/it/unicam/cs/mpgc/rpg130681/model/pickups/Tier.java b/src/main/java/it/unicam/cs/mpgc/rpg130681/model/pickups/Tier.java[m
+[1mindex 1e57240..94f8159 100644[m
+[1m--- a/src/main/java/it/unicam/cs/mpgc/rpg130681/model/pickups/Tier.java[m
+[1m+++ b/src/main/java/it/unicam/cs/mpgc/rpg130681/model/pickups/Tier.java[m
+[36m@@ -1,5 +1,6 @@[m
+ package it.unicam.cs.mpgc.rpg130681.model.pickups;[m
+ [m
+[32m+[m[32m//enum che identifica la rarità dei pickups, come i MedKit o i FuelTank[m
+ public enum Tier {[m
+     SMALL,[m
+     MEDIUM,[m
+[1mdiff --git a/src/main/java/it/unicam/cs/mpgc/rpg130681/model/stats/ResourceStat.java b/src/main/java/it/unicam/cs/mpgc/rpg130681/model/stats/ResourceStat.java[m
+[1mindex fb35139..ff515db 100644[m
+[1m--- a/src/main/java/it/unicam/cs/mpgc/rpg130681/model/stats/ResourceStat.java[m
+[1m+++ b/src/main/java/it/unicam/cs/mpgc/rpg130681/model/stats/ResourceStat.java[m
+[36m@@ -1,39 +1,39 @@[m
+ package it.unicam.cs.mpgc.rpg130681.model.stats;[m
+ [m
+ /* Questa classe rappresenta le risorse della nave (vita, carburante etc...),[m
+[31m-   creata per evitare di avere troppi metodi di gestione delle risorse nella classe ship, questo[m
+[32m+[m[32m   creata per evitare di avere metodi di gestione delle risorse nella classe ship, questo[m
+    in previsione di avere n risorse di svariato tipo in futuro.[m
+  */[m
+ [m
+ public class ResourceStat {[m
+ [m
+[31m-    private int current_value;[m
+[31m-    private int max_value;[m
+[32m+[m[32m    private float current_value;[m
+[32m+[m[32m    private float max_value;[m
+ [m
+     public ResourceStat (int max_value) {[m
+         if (max_value <= 0) {[m
+[31m-            throw new IllegalArgumentException("Il massimo deve essere impostato ad un valore maggiore di 0");[m
+[32m+[m[32m            throw new IllegalArgumentException("Il massimo valore di una risorsa deve essere impostato ad un valore maggiore di 0");[m
+         }[m
+         this.max_value = max_value;[m
+         current_value = max_value;[m
+     }[m
+ [m
+[31m-    public int getCurrent_value() {[m
+[32m+[m[32m    public float get_current_value() {[m
+         return current_value;[m
+     }[m
+ [m
+[31m-    public int getMax_value() {[m
+[32m+[m[32m    public float get_max_value() {[m
+         return max_value;[m
+     }[m
+ [m
+[31m-    public void increase_resource_by (int amount) {[m
+[32m+[m[32m    public void increase_resource_by (float amount) {[m
+         if (amount < 0) {[m
+             throw new IllegalArgumentException();[m
+         }[m
+         current_value = Math.min(current_value + amount, max_value);[m
+     }[m
+ [m
+[31m-    public void decrease_resource_by (int amount) {[m
+[32m+[m[32m    public void decrease_resource_by (float amount) {[m
+         if (amount < 0) {[m
+             throw new IllegalArgumentException();[m
+         }[m
+[36m@@ -44,7 +44,7 @@[m [mpublic class ResourceStat {[m
+         current_value = max_value;[m
+     }[m
+ [m
+[31m-    public void set_max (int new_max_value) {[m
+[32m+[m[32m    public void set_new_max (int new_max_value) {[m
+         max_value = new_max_value;[m
+     }[m
+ [m
+[1mdiff --git a/src/main/java/it/unicam/cs/mpgc/rpg130681/model/stats/ShipStats.java b/src/main/java/it/unicam/cs/mpgc/rpg130681/model/stats/ShipStats.java[m
+[1mindex 0b13a62..c959ef1 100644[m
+[1m--- a/src/main/java/it/unicam/cs/mpgc/rpg130681/model/stats/ShipStats.java[m
+[1m+++ b/src/main/java/it/unicam/cs/mpgc/rpg130681/model/stats/ShipStats.java[m
+[36m@@ -1,5 +1,26 @@[m
+ package it.unicam.cs.mpgc.rpg130681.model.stats;[m
+ [m
+[31m-public class ShipStat {[m
+[32m+[m[32mimport java.util.HashMap;[m
+[32m+[m[32mimport java.util.Map;[m
+ [m
+[31m-}[m
+[32m+[m[32mpublic class ShipStats {[m
+[32m+[m
+[32m+[m[32m    private Map<StatType, Float> stats;[m
+[32m+[m
+[32m+[m[32m    public ShipStats(Map<StatType, Float> stats) {[m
+[32m+[m[32m        this.stats = new HashMap<>(stats);[m
+[32m+[m[32m    }[m
+[32m+[m
+[32m+[m[32m    public float getStat(StatType type) {[m
+[32m+[m[32m        //evita eventuali null[m
+[32m+[m[32m        if (!stats.containsKey(type)) {[m
+[32m+[m[32m            throw new IllegalArgumentException("La statistica " + type + " non è presente.");[m
+[32m+[m[32m        }[m
+[32m+[m
+[32m+[m[32m        return stats.get(type);[m
+[32m+[m[32m    }[m
+[32m+[m
+[32m+[m[32m    public void increaseStat(StatType type, float amount) {[m
+[32m+[m[32m        stats.put(type, stats.get(type) + amount);[m
+[32m+[m[32m    }[m
+[32m+[m[32m}[m
+\ No newline at end of file[m
+[1mdiff --git a/src/main/java/it/unicam/cs/mpgc/rpg130681/utils/GameUtils.java b/src/main/java/it/unicam/cs/mpgc/rpg130681/utils/GameUtils.java[m
+[1mindex c2c6a57..39cedd2 100644[m
+[1m--- a/src/main/java/it/unicam/cs/mpgc/rpg130681/utils/GameUtils.java[m
+[1m+++ b/src/main/java/it/unicam/cs/mpgc/rpg130681/utils/GameUtils.java[m
+[36m@@ -1,6 +1,6 @@[m
+ package it.unicam.cs.mpgc.rpg130681.utils;[m
+ [m
+[31m-import it.unicam.cs.mpgc.rpg130681.model.objects.GameObject;[m
+[32m+[m[32mimport it.unicam.cs.mpgc.rpg130681.model.entities.GameObject;[m
+ [m
+ import java.util.Collection;[m
+ [m
+[36m@@ -9,7 +9,7 @@[m [mpublic class GameUtils {[m
+ [m
+ [m
+     //ricerca l'entità più vicina (alla ship), utile principalmente[m
+[31m-    //per la meccanica del proiettile che ha traiettoria automatica verso l'entità tarketable più vicina a esso.[m
+[32m+[m[32m    //per la meccanica del proiettile che ha traiettoria automatica verso l'entità targetable più vicina a esso.[m
+     public static <T extends GameObject & Targetable> T getClosestEntity(GameObject src, Collection<T> objects) {[m
+ [m
+         T closest_found = null;[m

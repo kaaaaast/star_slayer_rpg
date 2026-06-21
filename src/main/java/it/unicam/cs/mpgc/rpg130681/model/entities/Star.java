@@ -1,4 +1,4 @@
-package it.unicam.cs.mpgc.rpg130681.model.objects;
+package it.unicam.cs.mpgc.rpg130681.model.entities;
 
 import it.unicam.cs.mpgc.rpg130681.utils.Targetable;
 import it.unicam.cs.mpgc.rpg130681.utils.Vector2;

@@ -1,7 +1,7 @@
 package it.unicam.cs.mpgc.rpg130681.model.pickups;
 
-import it.unicam.cs.mpgc.rpg130681.model.objects.GameObject;
-import it.unicam.cs.mpgc.rpg130681.model.objects.Ship;
+import it.unicam.cs.mpgc.rpg130681.model.entities.GameObject;
+import it.unicam.cs.mpgc.rpg130681.model.entities.Ship;
 import it.unicam.cs.mpgc.rpg130681.utils.Vector2;
 
 public abstract class PickUp extends GameObject {
