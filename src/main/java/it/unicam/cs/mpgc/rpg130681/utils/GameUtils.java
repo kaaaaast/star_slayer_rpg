@@ -9,8 +9,8 @@ public class GameUtils {
 
 
     //ricerca l'entità più vicina (alla ship), utile principalmente
-    //per la meccanica del proiettile che ha traiettoria automatica verso l'entità targetable più vicina a esso.
-    public static <T extends GameObject & Targetable> T getClosestEntity(GameObject src, Collection<T> objects) {
+    //per la meccanica del proiettile che ha traiettoria automatica verso l'entità distruttibile più vicina a esso.
+    public static <T extends GameObject & Destroyable> T getClosestEntity(GameObject src, Collection<T> objects) {
 
         T closest_found = null;
         float min_distance = Float.MAX_VALUE;

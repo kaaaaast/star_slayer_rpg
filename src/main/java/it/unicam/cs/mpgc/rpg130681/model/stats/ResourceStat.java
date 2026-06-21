@@ -10,7 +10,7 @@ public class ResourceStat {
     private float current_value;
     private float max_value;
 
-    public ResourceStat (int max_value) {
+    public ResourceStat (float max_value) {
         if (max_value <= 0) {
             throw new IllegalArgumentException("Il massimo valore di una risorsa deve essere impostato ad un valore maggiore di 0");
         }
@@ -28,14 +28,14 @@ public class ResourceStat {
 
     public void increase_resource_by (float amount) {
         if (amount < 0) {
-            throw new IllegalArgumentException();
+            throw new IllegalArgumentException("L'ammontare della risorsa da aumentare deve essere maggiore di 0");
         }
         current_value = Math.min(current_value + amount, max_value);
     }
 
     public void decrease_resource_by (float amount) {
         if (amount < 0) {
-            throw new IllegalArgumentException();
+            throw new IllegalArgumentException("L'ammontare della risorsa da diminuire deve essere maggiore di 0.");
         }
         current_value = Math.max(current_value - amount, 0);
     }
@@ -44,8 +44,12 @@ public class ResourceStat {
         current_value = max_value;
     }
 
-    public void set_new_max (int new_max_value) {
+    public void set_new_max (float new_max_value) {
+        if (new_max_value <= 0) {
+            throw new IllegalArgumentException("Il valore deve essere maggiore di 0.");
+        }
         max_value = new_max_value;
+        current_value = Math.min(current_value, max_value);
     }
 
     public boolean isEmpty() {

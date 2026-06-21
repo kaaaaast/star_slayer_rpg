@@ -6,14 +6,16 @@ import it.unicam.cs.mpgc.rpg130681.utils.Vector2;
 public abstract class GameObject {
 
     private static int nextid = 0;
+    private float diameter;
     private Vector2 position;
     private final int id;
 
-    public GameObject(Vector2 position) {
-        if (position == null) {
-            throw new IllegalArgumentException();
+    public GameObject(Vector2 position, float diameter) {
+        if (position == null || diameter <= 0) {
+            throw new IllegalArgumentException("I parametri di creazione di un oggetto non possono essere nulli");
         }
         this.position = position;
+        this.diameter = diameter;
         this.id = nextid++;
     }
 
@@ -28,7 +30,6 @@ public abstract class GameObject {
     public int getId() {
         return id;
     }
-
 
     // Due GameObject sono uguali se hanno lo stesso id
     @Override

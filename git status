@@ -301,7 +301,7 @@
 [31m-package it.unicam.cs.mpgc.rpg130681.model.objects;[m
 [32m+[m[32mpackage it.unicam.cs.mpgc.rpg130681.model.entities;[m
  [m
- import it.unicam.cs.mpgc.rpg130681.utils.Targetable;[m
+ import it.unicam.cs.mpgc.rpg130681.utils.Destroyable;[m
  import it.unicam.cs.mpgc.rpg130681.utils.Vector2;[m
 [36m@@ -12,10 +12,10 @@[m [mpublic class Planet extends GameObject implements Targetable {[m
      private float diameter;[m
@@ -408,7 +408,7 @@
 [31m-package it.unicam.cs.mpgc.rpg130681.model.objects;[m
 [32m+[m[32mpackage it.unicam.cs.mpgc.rpg130681.model.entities;[m
  [m
- import it.unicam.cs.mpgc.rpg130681.utils.Targetable;[m
+ import it.unicam.cs.mpgc.rpg130681.utils.Destroyable;[m
  import it.unicam.cs.mpgc.rpg130681.utils.Vector2;[m
 [1mdiff --git a/src/main/java/it/unicam/cs/mpgc/rpg130681/model/pickups/Fuel.java b/src/main/java/it/unicam/cs/mpgc/rpg130681/model/pickups/Fuel.java[m
 [1mindex d57dd67..30c76e8 100644[m

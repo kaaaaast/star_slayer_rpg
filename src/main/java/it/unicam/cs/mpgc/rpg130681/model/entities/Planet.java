@@ -1,9 +1,9 @@
 package it.unicam.cs.mpgc.rpg130681.model.entities;
 
-import it.unicam.cs.mpgc.rpg130681.utils.Targetable;
+import it.unicam.cs.mpgc.rpg130681.utils.Destroyable;
 import it.unicam.cs.mpgc.rpg130681.utils.Vector2;
 
-public class Planet extends GameObject implements Targetable {
+public class Planet extends GameObject implements Destroyable {
 
     // la logica dell'orbita è attualmente attribuita al pianeta stesso
     // più avanti è probabile che vada creata una classe orbita apposita
@@ -23,7 +23,7 @@ public class Planet extends GameObject implements Targetable {
         if (parent == null) {
             throw new IllegalArgumentException("Un pianeta ha bisogno di una stella attorno a cui orbitare.");
         }
-        super(parent.getPosition());
+        super(parent.getPosition(), diameter);
         this.diameter = diameter;
         this.parent = parent;
         this.angular_speed = angularSpeed;
