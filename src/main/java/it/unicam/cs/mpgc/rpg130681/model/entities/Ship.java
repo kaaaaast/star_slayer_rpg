@@ -25,17 +25,17 @@ public class Ship extends GameObject{
 
     /*
    Per scelta di design, la navicella segue il cursore del mouse, e più esso è lontano
-   più la velocità aumenta. */
+   più la velocità aumenta (fino a un certo massimo). */
     public void move(Vector2 direction) {
 
         float distance = direction.length();
 
-        //Dead-zone per non far muovere la navicella quando il mouse è molto vicino a essa
+        //Dead-zone per non far muovere la navicella quando il mouse è molto vicino a essa.
         if (distance < DEAD_ZONE) {
             return;
         }
 
-        //Si imposta una distanza massima fra il cursore e la navicella, altrimenti si potrebbero ottenere velocità esagerate
+        //Si imposta una distanza massima fra il cursore e la navicella, altrimenti si potrebbero ottenere velocità esagerate.
         distance = Math.min(distance, MAX_CURSOR_DISTANCE);
 
         float speed_multiplier = distance / DISTANCE_SCALE;
