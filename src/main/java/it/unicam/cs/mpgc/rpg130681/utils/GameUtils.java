@@ -1,6 +1,7 @@
 package it.unicam.cs.mpgc.rpg130681.utils;
 
 import it.unicam.cs.mpgc.rpg130681.model.entities.GameObject;
+import it.unicam.cs.mpgc.rpg130681.model.pickups.PickUp;
 
 import java.util.Collection;
 
@@ -26,5 +27,14 @@ public class GameUtils {
             }
         }
         return closest_found;
+    }
+
+    //controlla se due entità collidono, rende la classe CollisionSystem più pulita e leggibile.
+    public static boolean isColliding(GameObject a, GameObject b) {
+        if (a == null || b == null) {
+            return false;
+        }
+        float distance = a.getPosition().distanceFrom(b.getPosition());
+        return distance <= a.getRadius() + b.getRadius();
     }
 }

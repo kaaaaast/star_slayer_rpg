@@ -9,6 +9,7 @@ public abstract class GameObject {
     private float diameter;
     private Vector2 position;
     private final int id;
+    private boolean should_remove;
 
     public GameObject(Vector2 position, float diameter) {
         if (position == null || diameter <= 0) {
@@ -16,6 +17,7 @@ public abstract class GameObject {
         }
         this.position = position;
         this.diameter = diameter;
+        should_remove = false;
         this.id = nextid++;
     }
 
@@ -29,6 +31,22 @@ public abstract class GameObject {
 
     public int getId() {
         return id;
+    }
+
+    public float getDiameter() {
+        return diameter;
+    }
+
+    public float getRadius() {
+        return diameter/2;
+    }
+
+    public boolean should_remove() {
+        return should_remove;
+    }
+
+    public void setShould_remove(boolean should_remove) {
+        this.should_remove = should_remove;
     }
 
     // Due GameObject sono uguali se hanno lo stesso id
@@ -49,13 +67,5 @@ public abstract class GameObject {
     @Override
     public int hashCode() {
         return Integer.hashCode(id);
-    }
-
-    public float getDiameter() {
-        return diameter;
-    }
-
-    public float getRadius() {
-        return diameter/2;
     }
 }

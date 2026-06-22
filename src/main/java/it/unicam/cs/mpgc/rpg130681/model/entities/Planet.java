@@ -40,4 +40,12 @@ public class Planet extends GameObject implements Destroyable {
         setPosition(parent.getPosition().add(new Vector2( orbit_radius * (float)Math.cos(angle), orbit_radius * (float)Math.sin(angle))));
     }
 
+    @Override
+    public boolean isDestroyed() {
+        return health_points <= 0;
+    }
+
+    public void receive_damage(float amount) {
+        health_points = Math.max(health_points-amount, 0);
+    }
 }

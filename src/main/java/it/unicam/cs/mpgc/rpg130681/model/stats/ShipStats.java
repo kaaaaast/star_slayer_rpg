@@ -23,4 +23,6 @@ public class ShipStats {
     public void increaseStat(StatType type, float amount) {
         stats.put(type, stats.get(type) + amount);
     }
+
+
 }

@@ -2,6 +2,12 @@ package it.unicam.cs.mpgc.rpg130681.model.entities;
 
 import it.unicam.cs.mpgc.rpg130681.utils.Destroyable;
 import it.unicam.cs.mpgc.rpg130681.utils.Vector2;
+
+//classe per rappresentare un proiettile. impiega i generics per evitare di dover
+//mettere un getposition nell'interfaccia Destroyable, oppure dover introdurre un'altra
+//interfaccia Targetable, oppure dove fare cast/instanceof relativamente a Destroyable.
+//semplicemente un target generico deve essere gameobject e destroyable, che è effettivamente
+//una proprietà di tutti gli oggetti distruttibili del gioco.
 public class Projectile <T extends GameObject & Destroyable> extends GameObject {
 
     private T target;
@@ -9,7 +15,6 @@ public class Projectile <T extends GameObject & Destroyable> extends GameObject 
     private float damage;
     private float hit_radius;
     private float remaining_lifetime;
-    private boolean remove_self;
 
     public Projectile(T target, Vector2 position, float speed, float damage, float hit_radius, float diameter) {
         super(position, diameter/2);
@@ -18,7 +23,6 @@ public class Projectile <T extends GameObject & Destroyable> extends GameObject 
         this.damage = damage;
         this.hit_radius = hit_radius;
         remaining_lifetime = 3.0f;
-        remove_self = false;
     }
 
     public void update_projectile() {
@@ -27,14 +31,14 @@ public class Projectile <T extends GameObject & Destroyable> extends GameObject 
         remaining_lifetime = Math.max(remaining_lifetime - update_delta, 0);
 
         if (remaining_lifetime == 0) {
-            setRemove_self(true);
+            setShould_remove(true);
         }
 
         if (target.isDestroyed()) {
-            setRemove_self(true);
+            setShould_remove(true);
         }
 
-        if (!remove_self) {
+        if (!should_remove()) {
             Vector2 direction = target.getPosition().sub(getPosition());
             setPosition(getPosition().add(direction.normalize().multiply(speed)));
         }
@@ -48,11 +52,8 @@ public class Projectile <T extends GameObject & Destroyable> extends GameObject 
         return hit_radius;
     }
 
-    public boolean isRemove_self() {
-        return remove_self;
+    public T getTarget() {
+        return target;
     }
 
-    public void setRemove_self(boolean destroy_self) {
-        this.remove_self = destroy_self;
-    }
 }

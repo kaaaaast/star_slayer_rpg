@@ -10,11 +10,11 @@ public abstract class PickUp extends GameObject {
     private float lifeTime;
     private final Tier tier;
 
-    public PickUp (Vector2 position, float pickupRadius, float lifeTime, Tier tier) {
+    public PickUp (Vector2 position, float pickupRadius, float lifeTime, Tier tier, float diameter) {
         if (lifeTime <= 0) {
             throw new IllegalArgumentException("I pickups devono rimanere disponibili per qualche secondo.");
         }
-        super(position);
+        super(position, diameter);
         this.pickupRadius = pickupRadius;
         this.lifeTime = lifeTime;
         this.tier = tier;
@@ -25,8 +25,8 @@ public abstract class PickUp extends GameObject {
     public float getLifeTime() {
         return lifeTime;
     }
-
-    public float getPickupRadius() {
+    @Override
+    public float getRadius() {
         return pickupRadius;
     }
 

@@ -5,7 +5,7 @@ import it.unicam.cs.mpgc.rpg130681.utils.Vector2;
 
 public class Star extends GameObject implements Destroyable {
 
-    private int health_points;
+    private float health_points;
     private float diameter;
 
     public Star(Vector2 position, int health_points, float diameter) {
@@ -14,6 +14,18 @@ public class Star extends GameObject implements Destroyable {
         this.diameter = diameter;
     }
 
+    @Override
+    public boolean isDestroyed() {
+        return health_points <= 0;
+    }
 
+    public void receive_damage(float amount) {
+        health_points = Math.max(health_points-amount, 0);
+        if (health_points == 0) {
+            destroy();
+        }
+    }
 
+    private void destroy() {
+    }
 }
