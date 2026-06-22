@@ -51,4 +51,11 @@ public abstract class GameObject {
         return Integer.hashCode(id);
     }
 
+    public float getDiameter() {
+        return diameter;
+    }
+
+    public float getRadius() {
+        return diameter/2;
+    }
 }
