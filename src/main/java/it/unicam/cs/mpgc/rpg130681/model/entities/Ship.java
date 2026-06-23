@@ -75,7 +75,7 @@ public class Ship extends GameObject {
         return inventory;
     }
 
-    public static Ship createTestShip() {
+     /*public static Ship createTestShip() {
 
         Map<ResourceType, ResourceStat> resources = new HashMap<>();
 
@@ -96,5 +96,5 @@ public class Ship extends GameObject {
                 48,
                 null
         );
-    }
+    }*/
 }

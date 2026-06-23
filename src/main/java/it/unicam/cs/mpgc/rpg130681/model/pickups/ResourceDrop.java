@@ -21,7 +21,6 @@ public class ResourceDrop extends PickUp {
             case MEDIUM -> 5;
             case LARGE -> 10;
         };
-
         ship_inventory.addResource(drop_type,drop_quantity);
     }
 }

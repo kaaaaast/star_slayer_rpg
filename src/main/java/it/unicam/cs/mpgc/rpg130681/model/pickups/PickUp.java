@@ -12,7 +12,7 @@ public abstract class PickUp extends GameObject {
 
     public PickUp (Vector2 position, float pickupRadius, float lifeTime, Tier tier, float diameter) {
         if (lifeTime <= 0) {
-            throw new IllegalArgumentException("I pickups devono rimanere disponibili per qualche secondo.");
+            throw new IllegalArgumentException("I pickups devono rimanere disponibili per un certo periodo di tempo maggiore di 0.");
         }
         super(position, diameter);
         this.pickupRadius = pickupRadius;

@@ -1,4 +1,4 @@
-package it.unicam.cs.mpgc.rpg130681.gamelogic;
+package it.unicam.cs.mpgc.rpg130681.controller;
 
 import it.unicam.cs.mpgc.rpg130681.utils.Vector2;
 import javafx.scene.input.KeyCode;
