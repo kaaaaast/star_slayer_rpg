@@ -13,17 +13,18 @@ public class Ship extends GameObject {
 
     private Map<ResourceType, ResourceStat> ship_resources;
     private ShipStats ship_stats;
-
+    private Inventory inventory;
     private boolean invulnerable;
     private float invulnerability_time;
     private static final float DEAD_ZONE = 20f;
     private static final float MAX_CURSOR_DISTANCE = 300f;
     private static final float DISTANCE_SCALE = 100f;
 
-    public Ship(Vector2 position, Map<ResourceType, ResourceStat> resources, ShipStats stats, float diameter){
+    public Ship(Vector2 position, Map<ResourceType, ResourceStat> resources, ShipStats stats, float diameter, Inventory inventory){
         super(position, diameter);
         this.ship_resources = resources;
         this.ship_stats = stats;
+        this.inventory = inventory;
     }
 
     /*
@@ -70,7 +71,11 @@ public class Ship extends GameObject {
         invulnerability_time = 3.0f;
     }
 
-    public static Ship createTestShip() {
+    public Inventory getInventory() {
+        return inventory;
+    }
+
+    /*public static Ship createTestShip() {
 
         Map<ResourceType, ResourceStat> resources = new HashMap<>();
 
@@ -88,7 +93,8 @@ public class Ship extends GameObject {
                 new Vector2(0, 0),
                 resources,
                 new ShipStats(stats),
-                48
+                48,
+                null
         );
-    }
+    }*/
 }

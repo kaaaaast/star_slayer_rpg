@@ -11,16 +11,16 @@ public class Fuel extends PickUp {
 
     @Override
     public void on_pickup(Ship ship) {
-        float max_hp = ship.getResource(ResourceType.FUEL).get_current_value();
+        float max_fuel = ship.getResource(ResourceType.FUEL).get_current_value();
 
         switch (this.getTier()) {
 
             case SMALL:
-                ship.getResource(ResourceType.FUEL).increase_resource_by(max_hp*1.2f);
+                ship.getResource(ResourceType.FUEL).increase_resource_by(max_fuel*0.2f);
                 break;
 
             case MEDIUM:
-                ship.getResource(ResourceType.FUEL).increase_resource_by(max_hp*1.5f);
+                ship.getResource(ResourceType.FUEL).increase_resource_by(max_fuel*0.5f);
                 break;
 
             case LARGE:

@@ -17,7 +17,7 @@ public class Projectile <T extends GameObject & Destroyable> extends GameObject 
     private float remaining_lifetime;
 
     public Projectile(T target, Vector2 position, float speed, float damage, float hit_radius, float diameter) {
-        super(position, diameter/2);
+        super(position, diameter);
         this.target = target;
         this.speed = speed;
         this.damage = damage;
