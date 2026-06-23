@@ -16,26 +16,11 @@ public class ResourceDrop extends PickUp {
     @Override
     public void on_pickup(Ship ship) {
         Inventory ship_inventory = ship.getInventory();
-        int drop_quantity;
-
-        switch (getTier()) {
-
-            case SMALL:
-                drop_quantity = 2;
-                break;
-
-            case MEDIUM:
-                drop_quantity = 5;
-                break;
-
-            case LARGE:
-                drop_quantity = 10;
-                break;
-
-            default:
-                drop_quantity = 2;
-
-        }
+        int drop_quantity = switch (getTier()) {
+            case SMALL -> 2;
+            case MEDIUM -> 5;
+            case LARGE -> 10;
+        };
 
         ship_inventory.addResource(drop_type,drop_quantity);
     }

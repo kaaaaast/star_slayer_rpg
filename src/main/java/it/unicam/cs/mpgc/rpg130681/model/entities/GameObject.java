@@ -17,8 +17,8 @@ public abstract class GameObject {
         }
         this.position = position;
         this.diameter = diameter;
-        should_remove = false;
         this.id = nextid++;
+        should_remove = false;
     }
 
     public Vector2 getPosition() {

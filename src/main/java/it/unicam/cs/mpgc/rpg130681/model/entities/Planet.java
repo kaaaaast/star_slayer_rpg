@@ -35,14 +35,13 @@ public class Planet extends GameObject implements Destroyable {
 
     //orbita del pianeta
     public void update() {
-
         angle += angular_speed;
         setPosition(parent.getPosition().add(new Vector2( orbit_radius * (float)Math.cos(angle), orbit_radius * (float)Math.sin(angle))));
     }
 
     @Override
     public boolean isDestroyed() {
-        return health_points <= 0;
+        return health_points == 0;
     }
 
     public void receive_damage(float amount) {
