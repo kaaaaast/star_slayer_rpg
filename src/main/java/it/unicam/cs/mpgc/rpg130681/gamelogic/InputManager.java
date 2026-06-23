@@ -9,9 +9,8 @@ public class InputManager {
 
     private static Vector2 mousePos = new Vector2(0,0);
 
-    // anche se il gioco prevede attualmente 1 o pochissimi tasti, c'è possibilità
-    // che ne vengano utilizzati diversi in futuro, quindi uso un set di tasti premuti invece che booleane
-    // per ogni tasto
+    // anche se il gioco prevede attualmente 1 tasto, c'è possibilità
+    // che ne vengano utilizzati diversi in futuro, quindi preferisco un set
     private static final Set<KeyCode> keys = new HashSet<>();
 
     public static Vector2 getMousePos() {
@@ -32,6 +31,11 @@ public class InputManager {
 
     public static void keyReleased(KeyCode key) {
         keys.remove(key);
+    }
+
+    //metodo per migliorare leggibilità nel GameLoop
+    public static boolean isSpacePressed() {
+        return isPressed(KeyCode.SPACE);
     }
 
     //utile per contesti come il pause button

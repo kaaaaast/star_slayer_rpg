@@ -5,8 +5,8 @@ import it.unicam.cs.mpgc.rpg130681.model.stats.ResourceType;
 import it.unicam.cs.mpgc.rpg130681.utils.Vector2;
 
 public class Fuel extends PickUp {
-    public Fuel(Vector2 position, float pickupRadius, float lifeTime, Tier tier) {
-        super(position, pickupRadius, lifeTime, tier);
+    public Fuel(Vector2 position, float pickupRadius, float lifeTime, Tier tier, float diameter) {
+        super(position, pickupRadius, lifeTime, tier, diameter);
     }
 
     @Override

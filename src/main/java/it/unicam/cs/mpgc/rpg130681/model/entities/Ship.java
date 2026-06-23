@@ -5,6 +5,7 @@ import it.unicam.cs.mpgc.rpg130681.model.stats.ShipStats;
 import it.unicam.cs.mpgc.rpg130681.model.stats.StatType;
 import it.unicam.cs.mpgc.rpg130681.utils.Vector2;
 
+import java.util.HashMap;
 import java.util.Map;
 
 //classe che rappresenta la navicella del giocatore
@@ -67,5 +68,27 @@ public class Ship extends GameObject {
         ship_resources.get(ResourceType.HEALTH).decrease_resource_by(ship_current_health*0.3f);
         invulnerable = true;
         invulnerability_time = 3.0f;
+    }
+
+    public static Ship createTestShip() {
+
+        Map<ResourceType, ResourceStat> resources = new HashMap<>();
+
+        resources.put(ResourceType.HEALTH, new ResourceStat(100));
+        resources.put(ResourceType.FUEL, new ResourceStat(100));
+
+        Map<StatType, Float> stats = new HashMap<>();
+
+        stats.put(StatType.SPEED, 10f);
+        stats.put(StatType.FIRE_RATE, 1f);
+        stats.put(StatType.FUELTANK_SIZE, 100f);
+        stats.put(StatType.MINING_POWER, 1f);
+
+        return new Ship(
+                new Vector2(0, 0),
+                resources,
+                new ShipStats(stats),
+                48
+        );
     }
 }
