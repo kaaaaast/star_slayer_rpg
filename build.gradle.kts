@@ -4,6 +4,7 @@ plugins {
     id("org.openjfx.javafxplugin") version "0.1.0"
 }
 
+
 application {
     mainClass.set("it.unicam.cs.mpgc.rpg130681.Main")
 }
@@ -24,7 +25,9 @@ javafx {
     version = "21"
 
     modules = listOf(
-        "javafx.controls"
+        "javafx.controls",
+        "javafx.media",
+        "javafx.fxml"
     )
 }
 

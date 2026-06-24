@@ -14,6 +14,9 @@ public class StarView extends GameObjectView<Star> {
     @Override
     public void update(Camera camera) {
         Vector2 screenPos = camera.worldToScreen(object.getPosition());
+        image_view.setPreserveRatio(true);
+        image_view.setSmooth(false);
+        image_view.setFitWidth(object.getDiameter());
         image_view.setLayoutX(screenPos.x());
         image_view.setLayoutY(screenPos.y());
     }

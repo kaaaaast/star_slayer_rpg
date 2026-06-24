@@ -16,14 +16,16 @@ public class Ship extends GameObject {
     private Inventory inventory;
     private boolean invulnerable;
     private float invulnerability_time;
+    private float shootCooldown;
     private static final float DEAD_ZONE = 20f;
     private static final float MAX_CURSOR_DISTANCE = 300f;
     private static final float DISTANCE_SCALE = 100f;
 
-    public Ship(Vector2 position, Map<ResourceType, ResourceStat> resources, ShipStats stats, float diameter, Inventory inventory){
+    public Ship(Vector2 position, Map<ResourceType, ResourceStat> resources, ShipStats stats, float diameter, float shootCooldown, Inventory inventory){
         super(position, diameter);
         this.ship_resources = resources;
         this.ship_stats = stats;
+        this.shootCooldown = shootCooldown;
         this.inventory = inventory;
     }
 
@@ -44,6 +46,18 @@ public class Ship extends GameObject {
 
         float speed_multiplier = distance / DISTANCE_SCALE;
         setPosition(getPosition().add(direction.normalize().multiply(ship_stats.getStat(StatType.SPEED) * speed_multiplier)));
+    }
+
+    public void update() {
+        shootCooldown = Math.max(shootCooldown - 0.02f, 0);
+    }
+
+    public boolean canShoot() {
+        if (shootCooldown > 0) {
+            return false;
+        }
+        shootCooldown = 1f / ship_stats.getStat(StatType.FIRE_RATE);
+        return true;
     }
 
     public ShipStats getShip_stats() {

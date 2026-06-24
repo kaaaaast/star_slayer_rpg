@@ -1,2 +1,2 @@
-rootProject.name = "NoirFiles"
+rootProject.name = "StarSlayer"
 

@@ -1,7 +1,15 @@
 package it.unicam.cs.mpgc.rpg130681.gamelogic;
 
 import it.unicam.cs.mpgc.rpg130681.model.entities.*;
+import it.unicam.cs.mpgc.rpg130681.model.pickups.DropType;
 import it.unicam.cs.mpgc.rpg130681.model.pickups.PickUp;
+import it.unicam.cs.mpgc.rpg130681.model.pickups.ResourceDrop;
+import it.unicam.cs.mpgc.rpg130681.model.pickups.Tier;
+import it.unicam.cs.mpgc.rpg130681.ui.views.AudioManager;
+import it.unicam.cs.mpgc.rpg130681.utils.GameUtils;
+import it.unicam.cs.mpgc.rpg130681.utils.Vector2;
+import it.unicam.cs.mpgc.rpg130681.controller.InputManager;
+import javafx.scene.input.KeyCode;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -20,14 +28,7 @@ public class GameManager {
     private Camera camera;
     private CollisionSystem collisionSystem;
 
-    public GameManager(
-            Ship playerShip,
-            List<Planet> planets,
-            List<Asteroid> asteroids,
-            List<Star> stars,
-            List<PickUp> pickups,
-            Camera camera) {
-
+    public GameManager(Ship playerShip, List<Planet> planets, List<Asteroid> asteroids, List<Star> stars, List<PickUp> pickups, Camera camera) {
         this.playerShip = playerShip;
         this.planets = planets;
         this.asteroids = asteroids;
@@ -40,6 +41,14 @@ public class GameManager {
 
     public void update() {
         camera.setPosition(playerShip.getPosition());
+
+        playerShip.update();
+
+        Vector2 mouseWorldPos = camera.screenToWorld(InputManager.getMousePos());
+
+        playerShip.move(mouseWorldPos.sub(playerShip.getPosition()));
+
+        handlePlayerShooting();
 
         for (Planet p : planets) {
             p.update();
@@ -63,6 +72,14 @@ public class GameManager {
 
         projectiles.removeIf(Projectile::should_remove);
         pickups.removeIf(PickUp::should_remove);
+
+        List<Planet> destroyedPlanets = planets.stream().filter(Planet::isDestroyed).toList();
+
+        for (Planet planet : destroyedPlanets) {
+
+            pickups.add(new ResourceDrop(planet.getPosition(), 50f, 60f, Tier.SMALL, 64f, DropType.IRON));
+        }
+
         planets.removeIf(Planet::isDestroyed);
     }
 
@@ -82,4 +99,34 @@ public class GameManager {
         return planets;
     }
 
+    public List<Star> getStars() {
+        return stars;
+    }
+
+    public List<Projectile<?>> getProjectiles() {
+        return projectiles;
+    }
+
+    public List<PickUp> getPickups() {
+        return pickups;
+    }
+
+    private void handlePlayerShooting() {
+
+        if (!InputManager.isPressed(KeyCode.SPACE)) {
+            return;
+        }
+
+        if (!playerShip.canShoot()) {
+            return;
+        }
+
+        Planet target = GameUtils.getClosestEntity(playerShip, planets);
+
+        if (target == null) {
+            return;
+        }
+        AudioManager.playShoot();
+        addProjectile(new Projectile<>(target, playerShip.getPosition(), 50f, 20f, 30f, 48f));
+    }
 }

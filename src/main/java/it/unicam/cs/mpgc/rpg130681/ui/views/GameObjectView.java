@@ -13,6 +13,11 @@ public abstract class GameObjectView <T extends GameObject> {
     public GameObjectView(T object, Image image) {
         this.object = object;
         this.image_view = new ImageView(image);
+        image_view.setPreserveRatio(true);
+        image_view.setSmooth(false);
+        image_view.setFitWidth(object.getDiameter());
+        image_view.setTranslateX(-object.getDiameter() / 2);
+        image_view.setTranslateY(-object.getDiameter() / 2);
     }
 
     public abstract void update(Camera camera);

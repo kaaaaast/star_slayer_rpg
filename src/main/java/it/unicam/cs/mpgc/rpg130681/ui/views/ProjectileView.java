@@ -22,6 +22,10 @@ public class ProjectileView {
         //centra lo sprite, altrimenti sarebbe in alto a sinistra
         sprite.getImageView().setTranslateX(-16);
         sprite.getImageView().setTranslateY(-16);
+        sprite.getImageView().setFitWidth(projectile.getDiameter());
+
+        sprite.getImageView()
+                .setPreserveRatio(true);
     }
 
     public void update(Camera camera) {
@@ -29,6 +33,10 @@ public class ProjectileView {
         ImageView image_view = sprite.getImageView();
         image_view.setLayoutX(screenPosition.x());
         image_view.setLayoutY(screenPosition.y());
+    }
+
+    public Projectile<?> getProjectile() {
+        return projectile;
     }
 
     public void nextFrame() {

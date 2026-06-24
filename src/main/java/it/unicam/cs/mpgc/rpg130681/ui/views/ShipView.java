@@ -37,7 +37,36 @@ public class ShipView {
 
         engineParticles = new AnimatedSprite(new Image(Objects.requireNonNull(getClass().getResourceAsStream("/VisualAssets/Sprites/Ship/Main Ship - Engines - Supercharged Engine - Powering.png"))), 48, 48, 4);
 
+
+        body.setPreserveRatio(true);
+        body.setFitWidth(ship.getDiameter());
+
+        engine.setPreserveRatio(true);
+        engine.setFitWidth(ship.getDiameter());
+
+        weapon.getImageView().setPreserveRatio(true);
+        weapon.getImageView().setFitWidth(ship.getDiameter());
+
+        engineParticles.getImageView().setPreserveRatio(true);
+        engineParticles.getImageView().setFitWidth(ship.getDiameter());
+
+        float halfSize = ship.getDiameter() / 2f;
+
+        body.setTranslateX(-halfSize);
+        body.setTranslateY(-halfSize);
+
+        engine.setTranslateX(-halfSize);
+        engine.setTranslateY(-halfSize);
+
+        weapon.getImageView().setTranslateX(-halfSize);
+        weapon.getImageView().setTranslateY(-halfSize);
+
+        engineParticles.getImageView().setTranslateX(-halfSize);
+        engineParticles.getImageView().setTranslateY(-halfSize);
+
         root = new Group(engineParticles.getImageView(), engine, body, weapon.getImageView());
+
+
     }
 
     public void update(Camera camera) {

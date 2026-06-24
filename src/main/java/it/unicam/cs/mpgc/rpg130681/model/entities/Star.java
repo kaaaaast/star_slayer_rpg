@@ -16,16 +16,10 @@ public class Star extends GameObject implements Destroyable {
 
     @Override
     public boolean isDestroyed() {
-        return health_points <= 0;
+        return health_points == 0;
     }
 
     public void receive_damage(float amount) {
         health_points = Math.max(health_points-amount, 0);
-        if (health_points == 0) {
-            destroy();
-        }
-    }
-
-    private void destroy() {
     }
 }

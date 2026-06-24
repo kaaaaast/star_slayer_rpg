@@ -24,4 +24,8 @@ public class PlanetView extends GameObjectView<Planet> {
         image_view.setLayoutY(screenPosition.y());
 
     }
+
+    public Planet getPlanet() {
+        return object;
+    }
 }

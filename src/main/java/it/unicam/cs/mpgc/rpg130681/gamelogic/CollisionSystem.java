@@ -4,6 +4,7 @@ import it.unicam.cs.mpgc.rpg130681.model.entities.GameObject;
 import it.unicam.cs.mpgc.rpg130681.model.entities.Projectile;
 import it.unicam.cs.mpgc.rpg130681.model.entities.Ship;
 import it.unicam.cs.mpgc.rpg130681.model.pickups.PickUp;
+import it.unicam.cs.mpgc.rpg130681.ui.views.AudioManager;
 import it.unicam.cs.mpgc.rpg130681.utils.Destroyable;
 import it.unicam.cs.mpgc.rpg130681.utils.GameUtils;
 
@@ -22,6 +23,7 @@ public class CollisionSystem {
 
     public boolean check_pickup_collision(Ship ship, PickUp pickup) {
         if (GameUtils.isColliding(ship, pickup)) {
+            AudioManager.playPickup();
             pickup.on_pickup(ship);
             pickup.setShould_remove(true);
             return true;
