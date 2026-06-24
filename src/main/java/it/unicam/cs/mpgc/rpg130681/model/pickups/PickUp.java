@@ -6,8 +6,8 @@ import it.unicam.cs.mpgc.rpg130681.utils.Vector2;
 
 public abstract class PickUp extends GameObject {
 
-    private float pickupRadius;
-    private float lifeTime;
+    private final float pickupRadius;
+    private final float lifeTime;
     private final Tier tier;
 
     public PickUp (Vector2 position, float pickupRadius, float lifeTime, Tier tier, float diameter) {
@@ -25,6 +25,7 @@ public abstract class PickUp extends GameObject {
     public float getLifeTime() {
         return lifeTime;
     }
+
     @Override
     public float getRadius() {
         return pickupRadius;
@@ -32,10 +33,5 @@ public abstract class PickUp extends GameObject {
 
     public Tier getTier() {
         return tier;
-    }
-
-    @Override
-    public Vector2 getPosition() {
-        return super.getPosition();
     }
 }

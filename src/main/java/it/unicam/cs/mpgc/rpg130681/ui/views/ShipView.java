@@ -2,6 +2,7 @@ package it.unicam.cs.mpgc.rpg130681.ui.views;
 
 import it.unicam.cs.mpgc.rpg130681.gamelogic.Camera;
 import it.unicam.cs.mpgc.rpg130681.model.entities.Ship;
+import it.unicam.cs.mpgc.rpg130681.utils.ResourceUtils;
 import it.unicam.cs.mpgc.rpg130681.utils.Vector2;
 import javafx.scene.Group;
 import javafx.scene.image.Image;
@@ -28,45 +29,19 @@ public class ShipView {
     public ShipView(Ship ship) {
 
         this.ship = ship;
+        body = new ImageView(ResourceUtils.loadImage(getClass(), "/VisualAssets/Sprites/Ship/Main Ship - Base - Full health.png"));
+        engine = new ImageView(ResourceUtils.loadImage(getClass(),"/VisualAssets/Sprites/Ship/Main Ship - Engines - Supercharged Engine.png"));
+        weapon = AnimatedSprite.fromResource(getClass(), "/VisualAssets/Sprites/Ship/Main Ship - Weapons - Auto Cannon.png", 48, 48, 6);
+        engineParticles = AnimatedSprite.fromResource(getClass(),"/VisualAssets/Sprites/Ship/Main Ship - Engines - Supercharged Engine - Powering.png", 48, 48, 4);
 
-        body = new ImageView(new Image(Objects.requireNonNull(getClass().getResourceAsStream("/VisualAssets/Sprites/Ship/Main Ship - Base - Full health.png"))));
+        float size = ship.getDiameter();
 
-        engine = new ImageView(new Image(Objects.requireNonNull(getClass().getResourceAsStream("/VisualAssets/Sprites/Ship/Main Ship - Engines - Supercharged Engine.png"))));
-
-        weapon = new AnimatedSprite(new Image(Objects.requireNonNull(getClass().getResourceAsStream("/VisualAssets/Sprites/Ship/Main Ship - Weapons - Auto Cannon.png"))), 48, 48, 6);
-
-        engineParticles = new AnimatedSprite(new Image(Objects.requireNonNull(getClass().getResourceAsStream("/VisualAssets/Sprites/Ship/Main Ship - Engines - Supercharged Engine - Powering.png"))), 48, 48, 4);
-
-
-        body.setPreserveRatio(true);
-        body.setFitWidth(ship.getDiameter());
-
-        engine.setPreserveRatio(true);
-        engine.setFitWidth(ship.getDiameter());
-
-        weapon.getImageView().setPreserveRatio(true);
-        weapon.getImageView().setFitWidth(ship.getDiameter());
-
-        engineParticles.getImageView().setPreserveRatio(true);
-        engineParticles.getImageView().setFitWidth(ship.getDiameter());
-
-        float halfSize = ship.getDiameter() / 2f;
-
-        body.setTranslateX(-halfSize);
-        body.setTranslateY(-halfSize);
-
-        engine.setTranslateX(-halfSize);
-        engine.setTranslateY(-halfSize);
-
-        weapon.getImageView().setTranslateX(-halfSize);
-        weapon.getImageView().setTranslateY(-halfSize);
-
-        engineParticles.getImageView().setTranslateX(-halfSize);
-        engineParticles.getImageView().setTranslateY(-halfSize);
+        configureSprite(body, size);
+        configureSprite(engine, size);
+        configureSprite(weapon.getImageView(), size);
+        configureSprite(engineParticles.getImageView(), size);
 
         root = new Group(engineParticles.getImageView(), engine, body, weapon.getImageView());
-
-
     }
 
     public void update(Camera camera) {
@@ -83,6 +58,14 @@ public class ShipView {
     public void nextFrame() {
         weapon.nextFrame();
         engineParticles.nextFrame();
+    }
+
+    private void configureSprite(ImageView imageView, float size) {
+        imageView.setPreserveRatio(true);
+        imageView.setFitWidth(size);
+        float halfSize = size / 2f;
+        imageView.setTranslateX(-halfSize);
+        imageView.setTranslateY(-halfSize);
     }
 
     public Group getRoot() {

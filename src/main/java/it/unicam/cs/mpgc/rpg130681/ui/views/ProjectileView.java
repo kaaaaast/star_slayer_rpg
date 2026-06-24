@@ -19,13 +19,11 @@ public class ProjectileView {
 
         Image projectileImage = new Image(Objects.requireNonNull(getClass().getResourceAsStream("/VisualAssets/Sprites/Ship/Main ship weapon - Projectile - Auto cannon bullet.png")));
         sprite = new AnimatedSprite(projectileImage, 32, 32, 4);
-        //centra lo sprite, altrimenti sarebbe in alto a sinistra
+        //centra lo sprite
         sprite.getImageView().setTranslateX(-16);
         sprite.getImageView().setTranslateY(-16);
         sprite.getImageView().setFitWidth(projectile.getDiameter());
-
-        sprite.getImageView()
-                .setPreserveRatio(true);
+        sprite.getImageView().setPreserveRatio(true);
     }
 
     public void update(Camera camera) {

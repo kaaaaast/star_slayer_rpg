@@ -11,7 +11,7 @@ public class Fuel extends PickUp {
 
     @Override
     public void on_pickup(Ship ship) {
-        float max_fuel = ship.getResource(ResourceType.FUEL).get_current_value();
+        float max_fuel = ship.getResource(ResourceType.FUEL).get_max_value();
 
         switch (this.getTier()) {
 

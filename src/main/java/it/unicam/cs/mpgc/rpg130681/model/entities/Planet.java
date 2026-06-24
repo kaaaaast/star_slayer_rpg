@@ -23,20 +23,20 @@ public class Planet extends GameObject implements Destroyable {
         if (parent == null) {
             throw new IllegalArgumentException("Un pianeta ha bisogno di una stella attorno a cui orbitare.");
         }
+
         super(parent.getPosition(), diameter);
         this.diameter = diameter;
         this.parent = parent;
         this.angular_speed = angularSpeed;
         this.orbit_radius = radius;
         this.health_points = health_points;
-        //randomizza l'angolo dell'orbita per generare un piccolo sistema di pianeti attorno alle stelle con orbite differenti
+        //randomizza l'angolo dell'orbita
         angle = (float)(Math.random() * 2 * Math.PI);
     }
 
-    //orbita del pianeta
     public void update() {
         angle += angular_speed;
-        setPosition(parent.getPosition().add(new Vector2( orbit_radius * (float)Math.cos(angle), orbit_radius * (float)Math.sin(angle))));
+        updateOrbitalPosition();
     }
 
     @Override
@@ -46,5 +46,10 @@ public class Planet extends GameObject implements Destroyable {
 
     public void receive_damage(float amount) {
         health_points = Math.max(health_points-amount, 0);
+    }
+
+    private void updateOrbitalPosition() {
+        Vector2 orbitOffset = new Vector2(orbit_radius * (float)Math.cos(angle), orbit_radius * (float)Math.sin(angle));
+        setPosition(parent.getPosition().add(orbitOffset));
     }
 }

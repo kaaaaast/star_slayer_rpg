@@ -1,5 +1,6 @@
 package it.unicam.cs.mpgc.rpg130681.ui.views;
 
+import it.unicam.cs.mpgc.rpg130681.utils.ResourceUtils;
 import javafx.geometry.Rectangle2D;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -32,6 +33,10 @@ public class AnimatedSprite {
             currentFrame = 0;
         }
         updateViewport();
+    }
+
+    public static AnimatedSprite fromResource(Class <?> caller_class, String path, int frameWidth, int frameHeight, int frameCount) {
+        return new AnimatedSprite (ResourceUtils.loadImage(caller_class, path), frameWidth, frameHeight, frameCount);
     }
 
     public ImageView getImageView() {

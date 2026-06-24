@@ -5,7 +5,7 @@ import java.util.Map;
 
 public class ShipStats {
 
-    private Map<StatType, Float> stats;
+    private final Map<StatType, Float> stats;
 
     public ShipStats(Map<StatType, Float> stats) {
         this.stats = new HashMap<>(stats);
@@ -22,6 +22,11 @@ public class ShipStats {
 
     public void increaseStat(StatType type, float amount) {
         stats.put(type, stats.get(type) + amount);
+    }
+
+    //utile principalmente per persistenza
+    public void setStat(StatType type,float value) {
+        stats.put(type, value);
     }
 
 

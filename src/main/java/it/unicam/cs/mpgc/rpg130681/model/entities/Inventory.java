@@ -18,16 +18,16 @@ public class Inventory {
         inventory_resources.put(dropType, inventory_resources.getOrDefault(dropType, 0) + amount);
     }
 
+    public void remove_resource(DropType dropType, int amount) {
+        inventory_resources.computeIfPresent(dropType, (t, current) -> Math.max(current-amount,0));
+    }
+
     public int get_quantity(DropType dropType) {
         return inventory_resources.getOrDefault(dropType,0);
     }
 
     public boolean has_resource(DropType dropType, int amount) {
         return get_quantity(dropType) >= amount;
-    }
-
-    public void remove_resource(DropType dropType, int amount) {
-        inventory_resources.computeIfPresent(dropType, (t, current) -> Math.max(current-amount,0));
     }
 
     public Map<DropType, Integer> getInventory_resources() {

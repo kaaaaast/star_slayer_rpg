@@ -12,6 +12,7 @@ import it.unicam.cs.mpgc.rpg130681.utils.Vector2;
 
 import java.util.*;
 
+//NEEDS REFACTORING é ORRENDA
 public class WorldGenerator {
 
     private final long seed;

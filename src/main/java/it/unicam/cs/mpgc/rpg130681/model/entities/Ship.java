@@ -41,7 +41,7 @@ public class Ship extends GameObject {
             return;
         }
 
-        //Si imposta una distanza massima fra il cursore e la navicella, altrimenti si potrebbero ottenere velocità esagerate.
+        //Imposta una distanza massima fra il cursore e la navicella (evita velocità esagerate)
         distance = Math.min(distance, MAX_CURSOR_DISTANCE);
 
         float speed_multiplier = distance / DISTANCE_SCALE;
@@ -49,7 +49,8 @@ public class Ship extends GameObject {
     }
 
     public void update() {
-        shootCooldown = Math.max(shootCooldown - 0.02f, 0);
+        update_shoot_cooldown();
+        update_invulnerability();
     }
 
     public boolean canShoot() {
@@ -79,36 +80,30 @@ public class Ship extends GameObject {
         if (invulnerable) {
             return;
         }
-        float ship_current_health = this.getShip_resources().get(ResourceType.HEALTH).get_current_value();
-        ship_resources.get(ResourceType.HEALTH).decrease_resource_by(ship_current_health*0.3f);
+        ResourceStat ship_current_health = getResource(ResourceType.HEALTH);
+        ship_current_health.decrease_resource_by(ship_current_health.get_current_value()*0.3f);
         invulnerable = true;
         invulnerability_time = 3.0f;
+    }
+
+    private void update_shoot_cooldown() {
+        shootCooldown = Math.max(shootCooldown-0.02f,0);
+    }
+
+    private void update_invulnerability() {
+
+        if (!invulnerable) {
+            return;
+        }
+
+        invulnerability_time = Math.max(invulnerability_time - 0.02f, 0);
+        if (invulnerability_time == 0) {
+            invulnerable = false;
+        }
     }
 
     public Inventory getInventory() {
         return inventory;
     }
 
-     /*public static Ship createTestShip() {
-
-        Map<ResourceType, ResourceStat> resources = new HashMap<>();
-
-        resources.put(ResourceType.HEALTH, new ResourceStat(100));
-        resources.put(ResourceType.FUEL, new ResourceStat(100));
-
-        Map<StatType, Float> stats = new HashMap<>();
-
-        stats.put(StatType.SPEED, 10f);
-        stats.put(StatType.FIRE_RATE, 1f);
-        stats.put(StatType.FUELTANK_SIZE, 100f);
-        stats.put(StatType.MINING_POWER, 1f);
-
-        return new Ship(
-                new Vector2(0, 0),
-                resources,
-                new ShipStats(stats),
-                48,
-                null
-        );
-    }*/
 }

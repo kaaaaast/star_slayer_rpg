@@ -13,6 +13,7 @@ public class PlanetView extends GameObjectView<Planet> {
         //quando viene costruita la sua vista, un pianeta prende casualmente uno dei 36 sprite disponibili.
         super(planet, planetSprites.get(ThreadLocalRandom.current().nextInt(planetSprites.size())));
         Image randomSprite = image_view.getImage();
+        //centra lo sprite
         image_view.setTranslateX(-randomSprite.getWidth() / 2);
         image_view.setTranslateY(-randomSprite.getHeight() / 2);
     }
