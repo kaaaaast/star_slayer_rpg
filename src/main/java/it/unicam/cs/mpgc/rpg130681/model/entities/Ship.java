@@ -3,9 +3,8 @@ import it.unicam.cs.mpgc.rpg130681.model.stats.ResourceStat;
 import it.unicam.cs.mpgc.rpg130681.model.stats.ResourceType;
 import it.unicam.cs.mpgc.rpg130681.model.stats.ShipStats;
 import it.unicam.cs.mpgc.rpg130681.model.stats.StatType;
+import it.unicam.cs.mpgc.rpg130681.ui.views.AudioManager;
 import it.unicam.cs.mpgc.rpg130681.utils.Vector2;
-
-import java.util.HashMap;
 import java.util.Map;
 
 //classe che rappresenta la navicella del giocatore
@@ -90,6 +89,7 @@ public class Ship extends GameObject {
         }
         ResourceStat ship_current_health = getResource(ResourceType.HEALTH);
         ship_current_health.decrease_resource_by(ship_current_health.get_current_value()*0.3f);
+        AudioManager.playDamage();
         invulnerable = true;
         invulnerability_time = 3.0f;
     }

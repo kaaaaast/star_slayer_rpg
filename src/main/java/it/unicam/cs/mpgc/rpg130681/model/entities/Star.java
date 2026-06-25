@@ -8,7 +8,7 @@ public class Star extends GameObject implements Destroyable {
     private float health_points;
     private float diameter;
 
-    public Star(Vector2 position, int health_points, float diameter) {
+    public Star(Vector2 position, float health_points, float diameter) {
         super(position, diameter/2);
         this.health_points = health_points;
         this.diameter = diameter;

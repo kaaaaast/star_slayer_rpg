@@ -12,13 +12,16 @@ public class AnimatedSprite {
     private final int frame_width;
     private final int frame_height;
     private final int frame_count;
+    private int animationTick;
+    private int frameDelay;
     private int currentFrame;
 
-    public AnimatedSprite(Image spriteSheet, int frameWidth, int frameHeight, int frameCount) {
+    public AnimatedSprite(Image spriteSheet, int frameWidth, int frameHeight, int frameCount, int frameDelay) {
         this.frame_width = frameWidth;
         this.frame_height = frameHeight;
         this.frame_count = frameCount;
         this.currentFrame = 0;
+        this.frameDelay = frameDelay;
         image_view = new ImageView(spriteSheet);
         updateViewport();
     }
@@ -27,16 +30,22 @@ public class AnimatedSprite {
         image_view.setViewport(new Rectangle2D(currentFrame * frame_width, 0, frame_width, frame_height));
     }
 
+
     public void nextFrame() {
-        currentFrame++;
-        if (currentFrame >= frame_count) {
-            currentFrame = 0;
+
+        animationTick++;
+
+        if (animationTick < frameDelay) {
+            return;
         }
+
+        animationTick = 0;
+        currentFrame = (currentFrame + 1) % frame_count;
         updateViewport();
     }
 
-    public static AnimatedSprite fromResource(Class <?> caller_class, String path, int frameWidth, int frameHeight, int frameCount) {
-        return new AnimatedSprite (ResourceUtils.loadImage(caller_class, path), frameWidth, frameHeight, frameCount);
+    public static AnimatedSprite fromResource(Class <?> caller_class, String path, int frameWidth, int frameHeight, int frameCount, int frameDelay) {
+        return new AnimatedSprite (ResourceUtils.loadImage(caller_class, path), frameWidth, frameHeight, frameCount, frameDelay);
     }
 
     public ImageView getImageView() {

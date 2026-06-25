@@ -4,8 +4,6 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import it.unicam.cs.mpgc.rpg130681.gamelogic.GameManager;
 import it.unicam.cs.mpgc.rpg130681.model.pickups.DropType;
-import it.unicam.cs.mpgc.rpg130681.model.stats.ResourceType;
-
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;

@@ -7,7 +7,7 @@ public final class ResourceUtils {
 
     private ResourceUtils() {}
 
-    public static Image loadImage(Class<?> clazz, String path) {
-        return new Image(Objects.requireNonNull(clazz.getResourceAsStream(path)));
+    public static Image loadImage(Class<?> sourceClass, String path) {
+        return new Image(Objects.requireNonNull(sourceClass.getResourceAsStream(path)));
     }
 }

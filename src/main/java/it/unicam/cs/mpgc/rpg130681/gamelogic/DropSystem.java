@@ -4,7 +4,6 @@ package it.unicam.cs.mpgc.rpg130681.gamelogic;
 import it.unicam.cs.mpgc.rpg130681.model.entities.GameObject;
 import it.unicam.cs.mpgc.rpg130681.model.pickups.DropType;
 import it.unicam.cs.mpgc.rpg130681.model.pickups.ResourceDrop;
-import it.unicam.cs.mpgc.rpg130681.model.pickups.Tier;
 import it.unicam.cs.mpgc.rpg130681.utils.GameUtils;
 
 import java.util.*;

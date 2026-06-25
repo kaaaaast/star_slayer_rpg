@@ -1,5 +1,6 @@
 package it.unicam.cs.mpgc.rpg130681.controller;
 
+import it.unicam.cs.mpgc.rpg130681.gamelogic.Camera;
 import it.unicam.cs.mpgc.rpg130681.gamelogic.GameManager;
 import it.unicam.cs.mpgc.rpg130681.model.entities.Projectile;
 import it.unicam.cs.mpgc.rpg130681.model.pickups.PickUp;
@@ -11,14 +12,14 @@ import java.util.List;
 
 public class GameLoop extends AnimationTimer {
 
-    private GameManager gameManager;
-    private ShipView shipView;
-    private BackgroundView backgroundView;
-    private Group root;
-    private List<PlanetView> planetViews;
-    private List<ProjectileView> projectileViews;
-    private List<PickUpView> pickUpViews;
-    private List<StarView> starViews;
+    private final GameManager gameManager;
+    private final ShipView shipView;
+    private final BackgroundView backgroundView;
+    private final Group root;
+    private final List<PlanetView> planetViews;
+    private final List<ProjectileView> projectileViews;
+    private final List<PickUpView> pickUpViews;
+    private final List<StarView> starViews;
 
     public GameLoop(GameManager gameManager, BackgroundView backgroundView, Group root, ShipView shipView, List<PlanetView> planetViews, List<ProjectileView> projectileViews, List<PickUpView> pickUpViews, List<StarView> starViews) {
         this.gameManager = gameManager;
@@ -34,13 +35,24 @@ public class GameLoop extends AnimationTimer {
     @Override
     public void handle(long now) {
         gameManager.update();
-        backgroundView.update(gameManager.getCamera());
-        shipView.update(gameManager.getCamera());
-        planetViews.forEach(p -> p.update(gameManager.getCamera()));
+
+        Camera camera = gameManager.getCamera();
+
+        backgroundView.update(camera);
+        shipView.update(camera);
+        shipView.nextFrame();
+        starViews.forEach(s -> s.update(camera));
+
+        updatePlanets(camera);
+        updateProjectiles(camera);
+        updatePickups(camera);
+    }
+
+    private void updatePlanets(Camera camera) {
+        planetViews.forEach(p -> p.update(camera));
         planetViews.removeIf(view -> {
 
             if (view.getPlanet().isDestroyed()) {
-                AudioManager.playExplosion();
                 root.getChildren().remove(view.getImage_view());
                 return true;
             }
@@ -48,30 +60,44 @@ public class GameLoop extends AnimationTimer {
             return false;
 
         });
+    }
+
+    private void updateProjectiles(Camera camera){
+        showProjectileViews();
+        projectileViews.forEach(p -> {p.update(camera); p.nextFrame();});
+        removeProjectileViews();
+    }
+
+    private void updatePickups(Camera camera) {
+        showPickupsViews();
+        pickUpViews.forEach(p -> p.update(camera));
+        removePickupsViews();
+    }
+
+    private void showProjectileViews() {
         for (Projectile<?> projectile : gameManager.getProjectiles()) {
-
             boolean exists = projectileViews.stream().anyMatch(v -> v.getProjectile() == projectile);
-
             if (!exists) {
                 ProjectileView projectileView = new ProjectileView(projectile);
                 projectileViews.add(projectileView);
                 root.getChildren().add(projectileView.getImageView());
             }
         }
+    }
 
-        projectileViews.forEach(p -> {p.update(gameManager.getCamera());p.nextFrame();});
+    private void removeProjectileViews() {
         projectileViews.removeIf(view -> {
 
             if (view.getProjectile().should_remove()) {
                 root.getChildren().remove(view.getImageView());
                 return true;
             }
-
             return false;
-        });
+        }
+        );
+    }
 
-        pickUpViews.forEach(p -> p.update(gameManager.getCamera()));
-
+    private void showPickupsViews() {
         for (PickUp pickup : gameManager.getPickups()) {
             boolean exists = pickUpViews.stream().anyMatch(v -> v.getPickUp() == pickup);
             if (!exists) {
@@ -80,9 +106,10 @@ public class GameLoop extends AnimationTimer {
                 root.getChildren().add(view.getImage_view());
             }
         }
+    }
 
+    private void removePickupsViews() {
         pickUpViews.removeIf(view -> {
-
             if (view.getPickUp().should_remove()) {
                 root.getChildren().remove(view.getImage_view());
                 return true;
@@ -90,7 +117,6 @@ public class GameLoop extends AnimationTimer {
 
             return false;
         });
-
-        starViews.forEach(s -> s.update(gameManager.getCamera()));
     }
+
 }

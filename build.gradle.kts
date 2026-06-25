@@ -6,7 +6,7 @@ plugins {
 
 
 application {
-    mainClass.set("it.unicam.cs.mpgc.rpg130681.Main")
+    mainClass.set("it.unicam.cs.mpgc.rpg130681.StarSlayerMain")
 }
 
 group = "org.example"
@@ -24,7 +24,6 @@ dependencies {
 
 javafx {
     version = "21"
-
     modules = listOf(
         "javafx.controls",
         "javafx.media",

@@ -5,10 +5,8 @@ import it.unicam.cs.mpgc.rpg130681.model.entities.Ship;
 import it.unicam.cs.mpgc.rpg130681.utils.ResourceUtils;
 import it.unicam.cs.mpgc.rpg130681.utils.Vector2;
 import javafx.scene.Group;
-import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 
-import java.util.Objects;
 
 //ShipView non estende GameObjectView perché è composta da più sprites (group con motore, particelle del motore e cannoni)
 
@@ -31,8 +29,8 @@ public class ShipView {
         this.ship = ship;
         body = new ImageView(ResourceUtils.loadImage(getClass(), "/VisualAssets/Sprites/Ship/Main Ship - Base - Full health.png"));
         engine = new ImageView(ResourceUtils.loadImage(getClass(),"/VisualAssets/Sprites/Ship/Main Ship - Engines - Supercharged Engine.png"));
-        weapon = AnimatedSprite.fromResource(getClass(), "/VisualAssets/Sprites/Ship/Main Ship - Weapons - Auto Cannon.png", 48, 48, 6);
-        engineParticles = AnimatedSprite.fromResource(getClass(),"/VisualAssets/Sprites/Ship/Main Ship - Engines - Supercharged Engine - Powering.png", 48, 48, 4);
+        weapon = AnimatedSprite.fromResource(getClass(), "/VisualAssets/Sprites/Ship/Main Ship - Weapons - Auto Cannon.png", 48, 48, 6, 3);
+        engineParticles = AnimatedSprite.fromResource(getClass(),"/VisualAssets/Sprites/Ship/Main Ship - Engines - Supercharged Engine - Powering.png", 48, 48, 4, 3);
 
         float size = ship.getDiameter();
 

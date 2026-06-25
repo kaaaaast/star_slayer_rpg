@@ -46,6 +46,8 @@ public class GameManager {
 
         playerShip.update();
 
+        updateShipRotation();
+
         Vector2 mouseWorldPos = camera.screenToWorld(InputManager.getMousePos());
 
         playerShip.move(mouseWorldPos.sub(playerShip.getPosition()));
@@ -115,6 +117,15 @@ public class GameManager {
         return pickups;
     }
 
+    private void updateShipRotation() {
+        Planet target = GameUtils.getClosestEntity(playerShip, planets);
+
+        if (target == null) {
+            return;
+        }
+
+        playerShip.lookAt(target.getPosition());
+    }
     private void handlePlayerShooting() {
 
         if (!InputManager.isPressed(KeyCode.SPACE)) {
@@ -131,7 +142,6 @@ public class GameManager {
             return;
         }
 
-        playerShip.lookAt(target.getPosition());
         AudioManager.playShoot();
         addProjectile(new Projectile<>(target, playerShip.getPosition(), 50f, 20f, 30f, 48f));
     }

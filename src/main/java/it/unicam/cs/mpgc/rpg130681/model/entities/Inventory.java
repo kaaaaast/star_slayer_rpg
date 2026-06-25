@@ -1,8 +1,6 @@
 package it.unicam.cs.mpgc.rpg130681.model.entities;
 
 import it.unicam.cs.mpgc.rpg130681.model.pickups.DropType;
-import it.unicam.cs.mpgc.rpg130681.model.pickups.ResourceDrop;
-
 import java.util.HashMap;
 import java.util.Map;
 

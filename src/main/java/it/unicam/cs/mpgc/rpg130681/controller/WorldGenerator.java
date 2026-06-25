@@ -4,20 +4,25 @@ import it.unicam.cs.mpgc.rpg130681.gamelogic.Camera;
 import it.unicam.cs.mpgc.rpg130681.gamelogic.GameManager;
 import it.unicam.cs.mpgc.rpg130681.model.entities.*;
 import it.unicam.cs.mpgc.rpg130681.model.pickups.PickUp;
-import it.unicam.cs.mpgc.rpg130681.model.stats.ResourceStat;
-import it.unicam.cs.mpgc.rpg130681.model.stats.ResourceType;
-import it.unicam.cs.mpgc.rpg130681.model.stats.ShipStats;
-import it.unicam.cs.mpgc.rpg130681.model.stats.StatType;
 import it.unicam.cs.mpgc.rpg130681.utils.Vector2;
 
 import java.util.*;
 
-//NEEDS REFACTORING é ORRENDA
 public class WorldGenerator {
 
     private final long seed;
     private final Random random;
+    private final ShipGenerator shipGenerator = new ShipGenerator();
+
+    //in futuro, si sposteranno i dati in json appositi
+    private static final float MIN_ORBIT_DISTANCE = 200f;
     private static final float MIN_SYSTEM_DISTANCE = 2500f;
+    private static final float STAR_BASE_HEALTHPOINTS = 150f;
+    private static final float STAR_BASE_DIAMETER = 2000f;
+
+    private static final float PLANET_BASE_HEALTHPOINTS = 100f;
+    private static final float PLANET_BASE_DIAMETER = 100f;
+
 
     public WorldGenerator(long seed) {
         this.seed = seed;
@@ -25,16 +30,13 @@ public class WorldGenerator {
     }
 
     public GameManager generateWorld() {
-
-
         List<Star> stars = new ArrayList<>();
         List<Planet> planets = new ArrayList<>();
         List<Asteroid> asteroids = new ArrayList<>();
         List<PickUp> pickups = new ArrayList<>();
 
         generateSystems(stars, planets);
-
-        Ship ship = createStartingShip(stars);
+        Ship ship = shipGenerator.createStartingShip(stars.getFirst());
 
         Camera camera = new Camera(ship.getPosition());
         return new GameManager(ship, planets, asteroids,stars,pickups,camera);
@@ -42,7 +44,7 @@ public class WorldGenerator {
 
     private void generateSystems(List<Star> stars, List<Planet> planets) {
 
-        int systemCount = random.nextInt(20, 51);
+        int systemCount = random.nextInt(20, 50);
         for (int i = 0; i < systemCount; i++) {
             Vector2 systemPosition;
 
@@ -50,21 +52,16 @@ public class WorldGenerator {
                 systemPosition = randomWorldPosition();
             } while (!isValidSystemPosition(systemPosition, stars));
 
-            Star star = new Star(systemPosition, 150, 2000);
+            Star star = new Star(systemPosition, STAR_BASE_HEALTHPOINTS, STAR_BASE_DIAMETER);
             stars.add(star);
-            generatePlanets(star, planets);
+            generateOrbitingPlanets(star, planets);
         }
     }
 
-    private boolean isValidSystemPosition(
-            Vector2 position,
-            List<Star> stars) {
+    private boolean isValidSystemPosition(Vector2 position, List<Star> stars) {
 
         for (Star star : stars) {
-
-            float distance =
-                    position.distanceFrom(star.getPosition());
-
+            float distance = position.distanceFrom(star.getPosition());
             if (distance < MIN_SYSTEM_DISTANCE) {
                 return false;
             }
@@ -73,13 +70,15 @@ public class WorldGenerator {
         return true;
     }
 
-    private void generatePlanets(Star star, List<Planet> planets) {
-        int planetCount = random.nextInt(2, 8);
+    private void generateOrbitingPlanets(Star parentStar, List<Planet> planets) {
+
+        int orbitingPlanetCount = random.nextInt(2, 8);
         // evita che i pianeti orbitino troppo vicino alla stella
-        float orbitRadius = star.getDiameter()/2 + 200;
-        for (int i = 0; i < planetCount; i++) {
+        float orbitRadius = parentStar.getRadius() + MIN_ORBIT_DISTANCE;
+
+        for (int i = 0; i < orbitingPlanetCount; i++) {
             orbitRadius += random.nextFloat(100, 300);
-            Planet planet = new Planet(star, 100, random.nextFloat(0.0005f, 0.010f), orbitRadius, 100f);
+            Planet planet = new Planet(parentStar, PLANET_BASE_DIAMETER, random.nextFloat(0.0005f, 0.010f), orbitRadius, PLANET_BASE_HEALTHPOINTS);
             planets.add(planet);
         }
     }
@@ -88,26 +87,6 @@ public class WorldGenerator {
         float x = random.nextFloat(-10000f, 10000f);
         float y = random.nextFloat(-10000f, 10000f);
         return new Vector2(x, y);
-    }
-
-    private Ship createStartingShip(List<Star> stars) {
-
-        Star startingstar = stars.getFirst();
-
-        Map<ResourceType, ResourceStat> resources = new HashMap<>();
-        resources.put(ResourceType.HEALTH, new ResourceStat(100));
-        resources.put(ResourceType.FUEL, new ResourceStat(100));
-
-        Map<StatType, Float> stats = new HashMap<>();
-        stats.put(StatType.SPEED, 4f);
-        stats.put(StatType.FIRE_RATE, 5f);
-        stats.put(StatType.MINING_POWER, 1f);
-
-        ShipStats shipStats = new ShipStats(stats);
-        Inventory inventory = new Inventory();
-        Vector2 spawnPosition = startingstar.getPosition().add(new Vector2(500, 0));
-
-        return new Ship(spawnPosition, resources, shipStats, 64, 0.2f, 0, inventory);
     }
 
     public long getSeed() {

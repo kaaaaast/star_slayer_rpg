@@ -1,5 +1,6 @@
 package it.unicam.cs.mpgc.rpg130681.model.entities;
 
+import it.unicam.cs.mpgc.rpg130681.ui.views.AudioManager;
 import it.unicam.cs.mpgc.rpg130681.utils.Destroyable;
 import it.unicam.cs.mpgc.rpg130681.utils.Vector2;
 
@@ -46,6 +47,11 @@ public class Planet extends GameObject implements Destroyable {
 
     public void receive_damage(float amount) {
         health_points = Math.max(health_points-amount, 0);
+        if (isDestroyed()) {
+            System.out.println("PLAY EXPLOSION");
+            setShould_remove(true);
+            AudioManager.playExplosion();
+        }
     }
 
     private void updateOrbitalPosition() {

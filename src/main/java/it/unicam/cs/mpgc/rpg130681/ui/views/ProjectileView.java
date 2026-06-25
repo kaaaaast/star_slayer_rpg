@@ -18,7 +18,7 @@ public class ProjectileView {
         this.projectile = projectile;
 
         Image projectileImage = new Image(Objects.requireNonNull(getClass().getResourceAsStream("/VisualAssets/Sprites/Ship/Main ship weapon - Projectile - Auto cannon bullet.png")));
-        sprite = new AnimatedSprite(projectileImage, 32, 32, 4);
+        sprite = new AnimatedSprite(projectileImage, 32, 32, 4, 3);
         //centra lo sprite
         sprite.getImageView().setTranslateX(-16);
         sprite.getImageView().setTranslateY(-16);
