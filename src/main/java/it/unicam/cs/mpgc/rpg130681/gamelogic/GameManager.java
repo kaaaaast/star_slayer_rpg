@@ -27,6 +27,7 @@ public class GameManager {
 
     private Camera camera;
     private CollisionSystem collisionSystem;
+    private UpgradeManager upgradeManager;
 
     public GameManager(Ship playerShip, List<Planet> planets, List<Asteroid> asteroids, List<Star> stars, List<PickUp> pickups, Camera camera) {
         this.playerShip = playerShip;
@@ -37,6 +38,7 @@ public class GameManager {
         this.projectiles = new ArrayList<>();
         this.camera = camera;
         this.collisionSystem = new CollisionSystem();
+        this.upgradeManager = new UpgradeManager();
     }
 
     public void update() {
@@ -47,6 +49,8 @@ public class GameManager {
         Vector2 mouseWorldPos = camera.screenToWorld(InputManager.getMousePos());
 
         playerShip.move(mouseWorldPos.sub(playerShip.getPosition()));
+
+        upgradeManager.checkForUpgrades(playerShip);
 
         handlePlayerShooting();
 
@@ -126,6 +130,8 @@ public class GameManager {
         if (target == null) {
             return;
         }
+
+        playerShip.lookAt(target.getPosition());
         AudioManager.playShoot();
         addProjectile(new Projectile<>(target, playerShip.getPosition(), 50f, 20f, 30f, 48f));
     }

@@ -17,15 +17,17 @@ public class Ship extends GameObject {
     private boolean invulnerable;
     private float invulnerability_time;
     private float shootCooldown;
+    private float rotation;
     private static final float DEAD_ZONE = 20f;
     private static final float MAX_CURSOR_DISTANCE = 300f;
     private static final float DISTANCE_SCALE = 100f;
 
-    public Ship(Vector2 position, Map<ResourceType, ResourceStat> resources, ShipStats stats, float diameter, float shootCooldown, Inventory inventory){
+    public Ship(Vector2 position, Map<ResourceType, ResourceStat> resources, ShipStats stats, float diameter, float shootCooldown,float rotation, Inventory inventory){
         super(position, diameter);
         this.ship_resources = resources;
         this.ship_stats = stats;
         this.shootCooldown = shootCooldown;
+        this.rotation = rotation;
         this.inventory = inventory;
     }
 
@@ -59,6 +61,12 @@ public class Ship extends GameObject {
         }
         shootCooldown = 1f / ship_stats.getStat(StatType.FIRE_RATE);
         return true;
+    }
+
+    //supporto AI per calcolo direzione con arcotangente
+    public void lookAt(Vector2 targetPosition) {
+        Vector2 direction = targetPosition.sub(getPosition());
+        rotation = (float) Math.toDegrees(Math.atan2(direction.y(), direction.x()));
     }
 
     public ShipStats getShip_stats() {
@@ -106,4 +114,7 @@ public class Ship extends GameObject {
         return inventory;
     }
 
+    public float getRotation() {
+        return rotation;
+    }
 }

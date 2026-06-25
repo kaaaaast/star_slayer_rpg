@@ -14,6 +14,7 @@ public final class AudioManager {
     private static final AudioClip EXPLOSION = new AudioClip(Objects.requireNonNull(AudioManager.class.getResource("/AudioAssets/explosion_sfx.mp3")).toExternalForm());
     private static final AudioClip PICKUP = new AudioClip(Objects.requireNonNull(AudioManager.class.getResource("/AudioAssets/pickup_sfx.mp3")).toExternalForm());
     private static final AudioClip ENGINE = new AudioClip(Objects.requireNonNull(AudioManager.class.getResource("/AudioAssets/spaceship_sfx.mp3")).toExternalForm());
+    private static final AudioClip LEVELUP = new AudioClip(Objects.requireNonNull(AudioManager.class.getResource("/AudioAssets/levelup_sfx.mp3")).toExternalForm());
 
     private AudioManager() {}
 
@@ -37,6 +38,9 @@ public final class AudioManager {
         PICKUP.play();
     }
 
+    public static void playLevelup() {
+        LEVELUP.play();
+    }
     public static void startEngineLoop() {
         ENGINE.setCycleCount(AudioClip.INDEFINITE);
         ENGINE.play();
@@ -47,6 +51,7 @@ public final class AudioManager {
         EXPLOSION.setVolume(0.8);
         PICKUP.setVolume(0.7);
         ENGINE.setVolume(0.3);
+        LEVELUP.setVolume(0.4);
     }
 
     public static void stopEngineLoop() {

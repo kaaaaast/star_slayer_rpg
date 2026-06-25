@@ -99,7 +99,7 @@ public class WorldGenerator {
         resources.put(ResourceType.FUEL, new ResourceStat(100));
 
         Map<StatType, Float> stats = new HashMap<>();
-        stats.put(StatType.SPEED, 7f);
+        stats.put(StatType.SPEED, 4f);
         stats.put(StatType.FIRE_RATE, 5f);
         stats.put(StatType.MINING_POWER, 1f);
 
@@ -107,7 +107,7 @@ public class WorldGenerator {
         Inventory inventory = new Inventory();
         Vector2 spawnPosition = startingstar.getPosition().add(new Vector2(500, 0));
 
-        return new Ship(spawnPosition, resources, shipStats, 64, 0.2f, inventory);
+        return new Ship(spawnPosition, resources, shipStats, 64, 0.2f, 0, inventory);
     }
 
     public long getSeed() {

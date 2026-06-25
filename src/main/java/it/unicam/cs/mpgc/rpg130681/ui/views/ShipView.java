@@ -51,8 +51,7 @@ public class ShipView {
         root.setLayoutX(screenPosition.x());
         root.setLayoutY(screenPosition.y());
 
-        //la nave dovrebbe puntare/ruotare sempre verso il puntatore del mouse, tempo permettendo questa funzione verrà implementata
-        //root.setRotate(ship.getRotation());
+        root.setRotate(ship.getRotation() + 60);
     }
 
     public void nextFrame() {
