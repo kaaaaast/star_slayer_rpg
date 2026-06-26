@@ -1,0 +1,24 @@
+[33mcommit c586e27a4ec9ccc1bc5d2761aee25fec0353e297[m[33m ([m[1;36mHEAD[m[33m -> [m[1;32mmaster[m[33m, [m[1;31morigin/master[m[33m)[m
+Author: Kast <alessiocorvatta518@gmail.com>
+Date:   Fri Jun 26 22:09:51 2026 +0200
+
+    Interfaccia, fxml con relativi controllers, SceneManager per la gestione delle scene. Major refactoring e opportuna documentazione.
+
+.gitignore
+.idea/.gitignore
+.idea/gradle.xml
+.idea/inspectionProfiles/Project_Default.xml
+.idea/material_theme_project_new.xml
+.idea/misc.xml
+.idea/vcs.xml
+src/main/java/it/unicam/cs/mpgc/rpg130681/controller/SceneManager.java
+src/main/java/it/unicam/cs/mpgc/rpg130681/controller/fxml/GameOverController.java
+src/main/java/it/unicam/cs/mpgc/rpg130681/controller/fxml/InfoController.java
+src/main/java/it/unicam/cs/mpgc/rpg130681/controller/fxml/MainMenuController.java
+src/main/java/it/unicam/cs/mpgc/rpg130681/controller/fxml/PauseMenuController.java
+src/main/java/it/unicam/cs/mpgc/rpg130681/ui/Hud.java
+src/main/java/it/unicam/cs/mpgc/rpg130681/ui/views/GameViewCreator.java
+src/main/resources/fxml/GameOver.fxml
+src/main/resources/fxml/Info.fxml
+src/main/resources/fxml/MainMenu.fxml
+src/main/resources/fxml/PauseMenu.fxml

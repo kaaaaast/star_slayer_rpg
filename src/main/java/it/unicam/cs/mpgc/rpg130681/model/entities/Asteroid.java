@@ -3,6 +3,9 @@ package it.unicam.cs.mpgc.rpg130681.model.entities;
 import it.unicam.cs.mpgc.rpg130681.utils.Destroyable;
 import it.unicam.cs.mpgc.rpg130681.utils.Vector2;
 
+/**
+ * Classe che rappresenta un generico asteroide.
+ */
 public class Asteroid extends GameObject implements Destroyable {
 
     private float health_points;

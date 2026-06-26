@@ -1,62 +1,101 @@
 package it.unicam.cs.mpgc.rpg130681.model.stats;
 
-/* Questa classe rappresenta le risorse della nave (vita, carburante etc...),
-   creata per evitare di avere metodi di gestione delle risorse nella classe ship, questo
-   in previsione di avere n risorse di svariato tipo in futuro.
+/**
+ * Classe che rappresenta una risorsa della navicella, come salute o carburante.
  */
 
 public class ResourceStat {
 
-    private float current_value;
-    private float max_value;
+    private float currentValue;
+    private float maxValue;
 
-    public ResourceStat (float max_value) {
-        if (max_value <= 0) {
+    /**
+     * Imposta la risorsa.
+     * @param maxValue Valore massimo della risorsa.
+     * @throws IllegalArgumentException se {@code maxValue} è minore o uguale di 0.
+     */
+    public ResourceStat (float maxValue) {
+        if (maxValue <= 0) {
             throw new IllegalArgumentException("Il massimo valore di una risorsa deve essere impostato ad un valore maggiore di 0");
         }
-        this.max_value = max_value;
-        current_value = max_value;
+        this.maxValue = maxValue;
+        currentValue = maxValue;
     }
 
-    public float get_current_value() {
-        return current_value;
-    }
-
-    public float get_max_value() {
-        return max_value;
-    }
-
-    public void increase_resource_by (float amount) {
-        if (amount < 0) {
+    /**
+     * Incrementa la risorsa di un certo {@code amount}.
+     * @param amount Il valore dell'aumento della risorsa.
+     * @throws IllegalArgumentException se {@code amount} è minore o uguale a 0.
+     */
+    public void increaseResourceBy (float amount) {
+        if (amount <= 0) {
             throw new IllegalArgumentException("L'ammontare della risorsa da aumentare deve essere maggiore di 0");
         }
-        current_value = Math.min(current_value + amount, max_value);
+        currentValue = Math.min(currentValue + amount, maxValue);
     }
 
-    public void decrease_resource_by (float amount) {
+    /**
+     * Decrementa la risorsa di un certo {@code amount}.
+     * @param amount Il valore del decremento della risorsa.
+     * @throws IllegalArgumentException se {@code amount} è minore di 0.
+     */
+
+    public void decreaseResourceBy (float amount) {
         if (amount < 0) {
             throw new IllegalArgumentException("L'ammontare della risorsa da diminuire deve essere maggiore di 0.");
         }
-        current_value = Math.max(current_value - amount, 0);
+        currentValue = Math.max(currentValue - amount, 0);
     }
 
-    public void complete_refill(){
-        current_value = max_value;
+    /**
+     * Imposta l'attuale valore di una risorsa al suo massimo valore consentito.
+     */
+    public void completeRefill (){
+        currentValue = maxValue;
     }
 
-    public void set_new_max (float new_max_value) {
-        if (new_max_value <= 0) {
+    /**
+     * Aggiorna il massimo valore consentito di una certa risorsa.
+     * @param newMaxValue Il nuovo valore massimo.
+     * @throws IllegalArgumentException se {@code newMaxValue} è minore o uguale di 0.
+     */
+    public void setNewMax(float newMaxValue) {
+        if (newMaxValue <= 0) {
             throw new IllegalArgumentException("Il valore deve essere maggiore di 0.");
         }
-        max_value = new_max_value;
-        current_value = Math.min(current_value, max_value);
+        maxValue = newMaxValue;
+        currentValue = Math.min(currentValue, maxValue);
     }
 
+    /**
+     * Controlla l'assenza di una risorsa.
+     * @return {@code true} se {@code currentValue == 0}.
+     */
     public boolean isEmpty() {
-        return current_value == 0;
+        return currentValue == 0;
     }
 
+    /**
+     * Controlla se il valore attuale della risorsa è al suo massimo valore consentito.
+     * @return {@code true} se {@code currentValue == maxValue}.
+     */
     public  boolean isFull() {
-        return current_value == max_value;
+        return currentValue == maxValue;
+    }
+
+    /**
+     * Cambia il valore attuale di una risorsa. Essa viene impostata automaticamente nel range {@code [0, maxValue]}
+     * @param value il nuovo valore a cui impostare la risorsa.
+     */
+    public void setCurrentValue(float value) {
+        currentValue = Math.max(0, Math.min(value, maxValue));
+    }
+
+    public float getCurrentValue() {
+        return currentValue;
+    }
+
+    public float getMaxValue() {
+        return maxValue;
     }
 }

@@ -1,25 +1,24 @@
 package it.unicam.cs.mpgc.rpg130681.model.entities;
 
-import it.unicam.cs.mpgc.rpg130681.utils.Destroyable;
 import it.unicam.cs.mpgc.rpg130681.utils.Vector2;
 
-public class Star extends GameObject implements Destroyable {
+/**
+ * Classe che rappresenta una generica stella
+ */
+public class Star extends GameObject{
 
-    private float health_points;
-    private float diameter;
+    private float healthPoints;
 
-    public Star(Vector2 position, float health_points, float diameter) {
-        super(position, diameter/2);
-        this.health_points = health_points;
-        this.diameter = diameter;
+    public Star(Vector2 position, float healthPoints, float diameter) {
+        super(position, diameter);
+        this.healthPoints = healthPoints;
     }
 
-    @Override
-    public boolean isDestroyed() {
-        return health_points == 0;
+    public float getHealthPoints() {
+        return healthPoints;
     }
 
-    public void receive_damage(float amount) {
-        health_points = Math.max(health_points-amount, 0);
+    public void setHealthPoints(float healthPoints) {
+        this.healthPoints = healthPoints;
     }
 }

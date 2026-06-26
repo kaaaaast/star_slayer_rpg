@@ -8,18 +8,24 @@ import javafx.scene.image.ImageView;
 
 import java.util.Objects;
 
+/**
+ * Classe per la visualizzazione di un proiettile.
+ */
 public class ProjectileView {
 
     private final Projectile<?> projectile;
     private final AnimatedSprite sprite;
 
+    /**
+     * Costruisce la visualizzazione dei proiettili
+     * @param projectile il proiettile da visualizzare.
+     */
     public ProjectileView(Projectile<?> projectile) {
 
         this.projectile = projectile;
 
         Image projectileImage = new Image(Objects.requireNonNull(getClass().getResourceAsStream("/VisualAssets/Sprites/Ship/Main ship weapon - Projectile - Auto cannon bullet.png")));
         sprite = new AnimatedSprite(projectileImage, 32, 32, 4, 3);
-        //centra lo sprite
         sprite.getImageView().setTranslateX(-16);
         sprite.getImageView().setTranslateY(-16);
         sprite.getImageView().setFitWidth(projectile.getDiameter());

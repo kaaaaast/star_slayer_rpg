@@ -2,15 +2,23 @@ package it.unicam.cs.mpgc.rpg130681.ui.views;
 
 import it.unicam.cs.mpgc.rpg130681.gamelogic.Camera;
 import it.unicam.cs.mpgc.rpg130681.model.pickups.PickUp;
+import it.unicam.cs.mpgc.rpg130681.utils.ResourceUtils;
 import it.unicam.cs.mpgc.rpg130681.utils.Vector2;
 import javafx.scene.image.Image;
 
 import java.util.Objects;
 
+/**
+ * Classe per la visualizzazione degli oggetti {@link PickUp}.
+ */
 public class PickUpView extends GameObjectView<PickUp> {
 
+    /**
+     * Costruisce la visualizzazione del PickUp.
+     * @param pickup il pickup da visualizzare.
+     */
     public PickUpView(PickUp pickup) {
-        super(pickup, new Image(Objects.requireNonNull(PickUpView.class.getResourceAsStream("/VisualAssets/Sprites/Drops/goldOre.png"))));
+        super(pickup, ResourceUtils.loadImage(PickUpView.class, "/VisualAssets/Sprites/Drops/goldOre.png"));
     }
 
     @Override

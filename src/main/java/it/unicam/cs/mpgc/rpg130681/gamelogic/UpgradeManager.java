@@ -6,8 +6,17 @@ import it.unicam.cs.mpgc.rpg130681.model.pickups.DropType;
 import it.unicam.cs.mpgc.rpg130681.model.stats.StatType;
 import it.unicam.cs.mpgc.rpg130681.ui.views.AudioManager;
 
+/**
+ * Classe che gestisce gli upgrade della navicella.
+ */
 public class UpgradeManager {
 
+    /**
+     * Migliora una statistica della navicella.
+     * @param ship La navicella.
+     * @param stat La statistica da migliorare.
+     * @return {@code true} se l'upgrade ha successo.
+     */
     public boolean upgrade_stat(Ship ship, StatType stat) {
 
         Inventory inventory = ship.getInventory();
@@ -46,6 +55,10 @@ public class UpgradeManager {
         return false;
     }
 
+    /**
+     * Controlla se un certo upgrade è possibile.
+     * @param ship La navicella di cui si vuole controllare l'upgrade.
+     */
     public void checkForUpgrades(Ship ship) {
         upgrade_stat(ship, StatType.SPEED);
         upgrade_stat(ship, StatType.FIRE_RATE);

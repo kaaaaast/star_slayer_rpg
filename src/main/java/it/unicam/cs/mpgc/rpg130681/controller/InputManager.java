@@ -5,12 +5,16 @@ import javafx.scene.input.KeyCode;
 import java.util.HashSet;
 import java.util.Set;
 
+/**
+ * Classe per la gestione degli input di mouse e tastiera.
+ */
 public class InputManager {
 
     private static Vector2 mousePos = new Vector2(0,0);
 
-    // anche se il gioco prevede attualmente 1 tasto, c'è possibilità
-    // che ne vengano utilizzati diversi in futuro, quindi preferisco un set
+    /*
+    Utilizza direttamente un set invece di hardcodare tutti i tasti necessari.
+     */
     private static final Set<KeyCode> keys = new HashSet<>();
 
     public static Vector2 getMousePos() {
@@ -33,13 +37,4 @@ public class InputManager {
         keys.remove(key);
     }
 
-    //metodo per migliorare leggibilità nel GameLoop
-    public static boolean isSpacePressed() {
-        return isPressed(KeyCode.SPACE);
-    }
-
-    //utile per contesti come il pause button
-    public static void clearKeys () {
-        keys.clear();
-    }
 }

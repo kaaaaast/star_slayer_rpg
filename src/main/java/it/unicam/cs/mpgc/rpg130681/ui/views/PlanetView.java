@@ -7,13 +7,20 @@ import javafx.scene.image.Image;
 import java.util.List;
 import java.util.concurrent.ThreadLocalRandom;
 
+/**
+ * Classe per la visualizzazione dei pianeti.
+ */
 public class PlanetView extends GameObjectView<Planet> {
 
+    /**
+     * Costruisce la visualizzazione del pianeta.
+     * @param planet pianeta da visualizzare.
+     * @param planetSprites lista degli sprites disponibili da applicare al pianeta.
+     */
     public PlanetView(Planet planet, List<Image> planetSprites) {
-        //quando viene costruita la sua vista, un pianeta prende casualmente uno dei 36 sprite disponibili.
+        //Quando viene costruita la sua vista, un pianeta prende casualmente uno degli sprite disponibili.
         super(planet, planetSprites.get(ThreadLocalRandom.current().nextInt(planetSprites.size())));
         Image randomSprite = image_view.getImage();
-        //centra lo sprite
         image_view.setTranslateX(-randomSprite.getWidth() / 2);
         image_view.setTranslateY(-randomSprite.getHeight() / 2);
     }

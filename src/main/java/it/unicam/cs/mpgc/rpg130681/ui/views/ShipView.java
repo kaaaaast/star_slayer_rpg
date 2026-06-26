@@ -7,9 +7,10 @@ import it.unicam.cs.mpgc.rpg130681.utils.Vector2;
 import javafx.scene.Group;
 import javafx.scene.image.ImageView;
 
-
-//ShipView non estende GameObjectView perché è composta da più sprites (group con motore, particelle del motore e cannoni)
-
+/**
+ * Classe per la visualizzazione della navicella del giocatore. ShipView non estende {@link GameObjectView}
+ * perché è composta da più sprites (group con motore, particelle del motore e cannoni)
+ */
 public class ShipView {
 
     private final Ship ship;
@@ -24,6 +25,10 @@ public class ShipView {
 
     private final Group root;
 
+    /**
+     * Costruisce la visualizzazione della navicella.
+     * @param ship la navicella da visualizzare.
+     */
     public ShipView(Ship ship) {
 
         this.ship = ship;
@@ -49,14 +54,27 @@ public class ShipView {
         root.setLayoutX(screenPosition.x());
         root.setLayoutY(screenPosition.y());
 
-        root.setRotate(ship.getRotation() + 60);
+        // ruota lo sprite di 90 gradi a destra perché originariamente lo sprite punta verso l'alto
+        root.setRotate(ship.getRotation() + 90);
     }
 
+    /**
+     * Procede al prossimo frame dell'animazione.
+     */
     public void nextFrame() {
         weapon.nextFrame();
         engineParticles.nextFrame();
     }
 
+    /**
+     * Configura lo sprite con le opportune impostazioni.
+     * @param imageView lo sprite da configurare.
+     * @param size la dimensione dello sprite.
+     */
+
+    /*
+      Il metodo potrebbe essere reso statico e spostato in ResourceUtils o altre classi simili dedicate.
+     */
     private void configureSprite(ImageView imageView, float size) {
         imageView.setPreserveRatio(true);
         imageView.setFitWidth(size);

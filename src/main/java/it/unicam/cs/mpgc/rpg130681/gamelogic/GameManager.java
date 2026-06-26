@@ -14,6 +14,10 @@ import javafx.scene.input.KeyCode;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Classe che si occupa di gestire tutto ciò che succede attivamente durante la partita, come aggiornare le posizioni degli oggetti,
+ * aggiornare le loro viste, gestire i target dei proiettili, controllare le collisioni e gli upgrade della navicella.
+ */
 public class GameManager {
 
     private Ship playerShip;
@@ -29,6 +33,15 @@ public class GameManager {
     private CollisionSystem collisionSystem;
     private UpgradeManager upgradeManager;
 
+    /**
+     * Costruisce il gestore della partita.
+     * @param playerShip la navicella del giocatore.
+     * @param planets i pianeti del mondo.
+     * @param asteroids gli asteroidi del mondo.
+     * @param stars le stelle del mondo.
+     * @param pickups gli oggetti raccoglibili dal giocatore.
+     * @param camera la camera.
+     */
     public GameManager(Ship playerShip, List<Planet> planets, List<Asteroid> asteroids, List<Star> stars, List<PickUp> pickups, Camera camera) {
         this.playerShip = playerShip;
         this.planets = planets;
@@ -41,6 +54,11 @@ public class GameManager {
         this.upgradeManager = new UpgradeManager();
     }
 
+    /**
+     * Esegue un update dello stato della partita.
+     * Aggiorna gli oggetti del mondo, gestisce le collisioni, i proiettili, la
+     * raccolta degli oggetti e la rimozione degli oggetti distrutti.
+     */
     public void update() {
         camera.setPosition(playerShip.getPosition());
 
@@ -61,23 +79,23 @@ public class GameManager {
         }
 
         for (Projectile<?> projectile : projectiles) {
-            projectile.update_projectile();
+            projectile.updateProjectile();
         }
 
         for (Projectile<?> projectile : projectiles) {
-            collisionSystem.check_projectile_collision(projectile);
+            collisionSystem.checkProjectileCollision(projectile);
         }
 
         for (PickUp pickup : pickups) {
-            collisionSystem.check_pickup_collision(playerShip, pickup);
+            collisionSystem.checkPickupCollision(playerShip, pickup);
         }
 
         for (Planet planet : planets) {
-            collisionSystem.check_player_collision(playerShip, planet);
+            collisionSystem.checkPlayerCollision(playerShip, planet);
         }
 
-        projectiles.removeIf(Projectile::should_remove);
-        pickups.removeIf(PickUp::should_remove);
+        projectiles.removeIf(Projectile::shouldRemove);
+        pickups.removeIf(PickUp::shouldRemove);
 
         List<Planet> destroyedPlanets = planets.stream().filter(Planet::isDestroyed).toList();
 
@@ -89,6 +107,10 @@ public class GameManager {
         planets.removeIf(Planet::isDestroyed);
     }
 
+    /**
+     * Aggiunge un proiettile
+     * @param projectile il proiettile da aggiungere.
+     */
     public void addProjectile(Projectile<?> projectile) {
         projectiles.add(projectile);
     }
@@ -117,8 +139,12 @@ public class GameManager {
         return pickups;
     }
 
+    /**
+     * Aggiorna la rotazione della nave, facendola puntare verso il bersaglio più vicino, che è anche il bersaglio dei proiettili.
+     */
     private void updateShipRotation() {
-        Planet target = GameUtils.getClosestEntity(playerShip, planets);
+
+        Planet target = GameUtils.getClosestVisibleEntity(playerShip, planets, camera);
 
         if (target == null) {
             return;
@@ -126,6 +152,10 @@ public class GameManager {
 
         playerShip.lookAt(target.getPosition());
     }
+
+    /**
+     * Gestisce la creazione dei proiettili e la selezione del loro bersaglio.
+     */
     private void handlePlayerShooting() {
 
         if (!InputManager.isPressed(KeyCode.SPACE)) {
@@ -136,7 +166,7 @@ public class GameManager {
             return;
         }
 
-        Planet target = GameUtils.getClosestEntity(playerShip, planets);
+        Planet target = GameUtils.getClosestVisibleEntity(playerShip, planets, camera);
 
         if (target == null) {
             return;

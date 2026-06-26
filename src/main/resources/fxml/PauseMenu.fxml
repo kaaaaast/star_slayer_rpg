@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.layout.StackPane?>
+<?import javafx.scene.layout.VBox?>
+
+<StackPane xmlns="http://javafx.com/javafx/21"
+           xmlns:fx="http://javafx.com/fxml/1"
+           fx:controller="it.unicam.cs.mpgc.rpg130681.controller.fxml.PauseMenuController"
+           style="-fx-background-color: rgba(0,0,0,0.55)"
+           maxWidth="Infinity"
+           maxHeight="Infinity">
+
+
+    <VBox alignment="CENTER"
+          spacing="20">
+
+        <padding>
+            <Insets top="40" bottom="40"/>
+        </padding>
+
+        <Label text="PAUSA"/>
+
+        <Button text="Riprendi"
+                prefWidth="250"
+                onAction="#Resume"/>
+
+        <Button text="Salva partita"
+                prefWidth="250"
+                onAction="#Save"/>
+
+        <Button text="Menu principale"
+                prefWidth="250"
+                onAction="#MainMenu"/>
+
+        <Button text="Esci"
+                prefWidth="250"
+                onAction="#Exit"/>
+
+    </VBox>
+
+</StackPane>

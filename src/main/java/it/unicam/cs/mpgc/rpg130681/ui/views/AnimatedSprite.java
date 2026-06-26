@@ -30,7 +30,7 @@ public class AnimatedSprite {
         image_view.setViewport(new Rectangle2D(currentFrame * frame_width, 0, frame_width, frame_height));
     }
 
-
+    //con animationtick e framedelay si gestisce la velocità di scorrimento dei frame a piacimento. più framedelay cresce, più l'animazione è lenta
     public void nextFrame() {
 
         animationTick++;

@@ -2,15 +2,29 @@ package it.unicam.cs.mpgc.rpg130681.model.entities;
 
 
 import it.unicam.cs.mpgc.rpg130681.utils.Vector2;
+import it.unicam.cs.mpgc.rpg130681.model.pickups.PickUp;
+
+/**
+ * Classe utile per rappresentare un generico oggetto del gioco.
+ * Fornisce le proprietà base condivise da tutti gli  oggetti, come la loro posizione, grandezza e ID.
+ */
 
 public abstract class GameObject {
 
     private static int nextid = 0;
-    private float diameter;
+    private final float diameter;
     private Vector2 position;
     private final int id;
-    private boolean should_remove;
+    private boolean shouldRemove;
 
+    /**
+     * Costruisce un nuovo GameObject.
+     *
+     * @param position Posizione dell'oggetto nel mondo
+     * @param diameter Diametro dell'oggetto da creare
+     * @throws IllegalArgumentException se {@code position} è {@code null}
+     * oppure se {@code diameter} è {@code <= 0}.
+     */
     public GameObject(Vector2 position, float diameter) {
         if (position == null || diameter <= 0) {
             throw new IllegalArgumentException("I parametri di creazione di un oggetto non possono essere nulli");
@@ -18,7 +32,7 @@ public abstract class GameObject {
         this.position = position;
         this.diameter = diameter;
         this.id = nextid++;
-        should_remove = false;
+        shouldRemove = false;
     }
 
     public Vector2 getPosition() {
@@ -37,16 +51,32 @@ public abstract class GameObject {
         return diameter;
     }
 
+    /**
+     * Ritorna il raggio di un certo oggetto.
+     *
+     * @return Metà del diametro dell'oggetto
+     */
     public float getRadius() {
         return diameter/2;
     }
 
-    public boolean should_remove() {
-        return should_remove;
+    /**
+     * Indica se un certo oggetto deve essere rimosso dal mondo al prossimo ciclo di updates.
+     *
+     * @return {@code true} se l'oggetto deve essere rimosso.
+     */
+    public boolean shouldRemove() {
+        return shouldRemove;
     }
 
-    public void setShould_remove(boolean should_remove) {
-        this.should_remove = should_remove;
+    /**
+     * Assegna a un certo oggetto la necessità di essere rimosso, ad esempio dopo che un {@link Planet} è stato
+     * distrutto oppure dopo che un {@link PickUp} è stato raccolto
+     *
+     * @param shouldRemove Flag di rimozione del GameObject
+     */
+    public void setShouldRemove(boolean shouldRemove) {
+        this.shouldRemove = shouldRemove;
     }
 
     // Due GameObject sono uguali se hanno lo stesso id

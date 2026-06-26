@@ -4,20 +4,29 @@ import it.unicam.cs.mpgc.rpg130681.ui.views.AudioManager;
 import it.unicam.cs.mpgc.rpg130681.utils.Destroyable;
 import it.unicam.cs.mpgc.rpg130681.utils.Vector2;
 
+/**
+ * Classe per rappresentare i pianeti che popolano lo spazio.
+ */
 public class Planet extends GameObject implements Destroyable {
 
-    // la logica dell'orbita è attualmente attribuita al pianeta stesso
-    // più avanti è probabile che vada creata una classe orbita apposita
-
-    private Star parent;
-    private float diameter;
-    private float angular_speed;
-    private float orbit_radius;
-    private float health_points;
+    private final Star parent;
+    private final float angularSpeed;
+    private final float orbitRadius;
+    private float healthPoints;
     private float angle;
 
-    public Planet (Star parent, float diameter, float angularSpeed, float radius, float health_points) {
-        if (diameter <= 0 || radius <= 0 || angularSpeed <= 0 || health_points <= 0) {
+    /**
+     * Costruisce un pianeta.
+     * @param parent La {@link Star} attorno alla quale il pianeta orbita.
+     * @param diameter Il diametro del pianeta.
+     * @param angularSpeed  La velocità angolare dell'orbita.
+     * @param orbitRadius Il raggio dell'orbita.
+     * @param healthPoints I punti vita del pianeta.
+     * @throws IllegalArgumentException Se almeno uno fra {@code diameter, orbitRadius, angularSpeed, healthPoints} è negativo o 0, oppure se
+     * {@code parent} è null.
+     */
+    public Planet (Star parent, float diameter, float angularSpeed, float orbitRadius, float healthPoints) {
+        if (diameter <= 0 || orbitRadius <= 0 || angularSpeed <= 0 || healthPoints <= 0) {
             throw new IllegalArgumentException("Parametri di creazione del pianeta invalidi.");
         }
 
@@ -26,36 +35,51 @@ public class Planet extends GameObject implements Destroyable {
         }
 
         super(parent.getPosition(), diameter);
-        this.diameter = diameter;
         this.parent = parent;
-        this.angular_speed = angularSpeed;
-        this.orbit_radius = radius;
-        this.health_points = health_points;
-        //randomizza l'angolo dell'orbita
+        this.angularSpeed = angularSpeed;
+        this.orbitRadius = orbitRadius;
+        this.healthPoints = healthPoints;
+        // Inizializza il pianeta con un angolo orbitale casuale.
         angle = (float)(Math.random() * 2 * Math.PI);
     }
 
+
     public void update() {
-        angle += angular_speed;
+        angle += angularSpeed;
         updateOrbitalPosition();
+    }
+
+    /**
+     * Aggiorna la posizione del pianeta in base ai parametri di orbita.
+     */
+    private void updateOrbitalPosition() {
+
+        //La logica dell' orbita è attualmente attribuita al pianeta stesso, poiché è l'unico oggetto orbitante.
+        //Tuttavia in futuro sarebbe opportuno spostare l'orbita in una classe apposita per questioni di estensibilità.
+
+        Vector2 orbitOffset = new Vector2(orbitRadius * (float)Math.cos(angle), orbitRadius * (float)Math.sin(angle));
+        setPosition(parent.getPosition().add(orbitOffset));
     }
 
     @Override
     public boolean isDestroyed() {
-        return health_points == 0;
+        return healthPoints == 0;
     }
 
+    /**
+     * Applica un certo danno {@code amount} al pianeta. Se dopo l'applicazione del danno il pianeta
+     * ha 0 punti di vita viene distrutto, ovvero viene segnalato come rimovibile.
+     * @param amount Il danno da applicare.
+     * @throws IllegalArgumentException se {@code amount} è strettamente negativo.
+     */
     public void receive_damage(float amount) {
-        health_points = Math.max(health_points-amount, 0);
+        if (amount < 0) {
+            throw new IllegalArgumentException("Il pianeta deve ricevere un danno positivo.");
+        }
+        healthPoints = Math.max(healthPoints -amount, 0);
         if (isDestroyed()) {
-            System.out.println("PLAY EXPLOSION");
-            setShould_remove(true);
+            setShouldRemove(true);
             AudioManager.playExplosion();
         }
-    }
-
-    private void updateOrbitalPosition() {
-        Vector2 orbitOffset = new Vector2(orbit_radius * (float)Math.cos(angle), orbit_radius * (float)Math.sin(angle));
-        setPosition(parent.getPosition().add(orbitOffset));
     }
 }

@@ -5,6 +5,10 @@ import javafx.scene.Group;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 
+
+/**
+ * Classe per la visualizzazione dello sfondo. Esso è formato da una tile loopabile infinite volte.
+ */
 public class BackgroundView {
 
     private static final double TILE_WIDTH = 1280;
@@ -17,6 +21,10 @@ public class BackgroundView {
     private final Group root;
     private final ImageView[] tiles;
 
+    /**
+     * Costruisce la vista dello sfondo.
+     * @param backgroundImage  immagine utilizzata come tile.
+     */
     public BackgroundView(Image backgroundImage) {
 
         root = new Group();
@@ -34,9 +42,13 @@ public class BackgroundView {
         root.getChildren().addAll(tiles);
     }
 
+    /**
+     * Aggiorna lo sfondo, permettendo di essere sempre visibile correttamente in tutto il mondo.
+     * @param camera camera del gioco.
+     */
     public void update(Camera camera) {
 
-        //effetto "parallasse"
+        // effetto "parallasse" che genera un lieve effetto di profondità
         double camX = camera.getPosition().x() * parallax_factor;
         double camY = camera.getPosition().y() * parallax_factor;
 
@@ -46,6 +58,13 @@ public class BackgroundView {
         updateTiles(offsetX,offsetY);
     }
 
+    /**
+     * Aggiorna la posizione delle singole tile dello sfondo a partire
+     * dagli offset calcolati rispetto alla camera.
+     *
+     * @param offsetX l'offset orizzontale.
+     * @param offsetY l'offset verticale.
+     */
     private void updateTiles(double offsetX, double offsetY) {
         int index = 0;
 
@@ -59,6 +78,11 @@ public class BackgroundView {
 
     }
 
+    /**
+     * Restituisce il nodo radice contenente le tile dello sfondo.
+     *
+     * @return il {@link Group} che rappresenta lo sfondo.
+     */
     public Group getRoot() {
         return root;
     }

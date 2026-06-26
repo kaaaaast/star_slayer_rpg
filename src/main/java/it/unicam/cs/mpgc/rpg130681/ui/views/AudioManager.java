@@ -6,6 +6,9 @@ import javafx.scene.media.MediaPlayer;
 
 import java.util.Objects;
 
+/**
+ * Classe per la gestione del comparto audio del gioco, come musica ed effetti sonori.
+ */
 public final class AudioManager {
 
     private static MediaPlayer musicPlayer;
@@ -20,11 +23,22 @@ public final class AudioManager {
     private AudioManager() {}
 
     public static void startMusic() {
+        if (musicPlayer != null) {
+            return;
+        }
         Media media = new Media(Objects.requireNonNull(AudioManager.class.getResource("/AudioAssets/background_music.mp3")).toExternalForm());
         musicPlayer = new MediaPlayer(media);
-        musicPlayer.setVolume(0.25);
+        musicPlayer.setVolume(0.15);
         musicPlayer.setCycleCount(MediaPlayer.INDEFINITE);
         musicPlayer.play();
+    }
+
+    public static void stopMusic() {
+        if (musicPlayer != null) {
+            musicPlayer.stop();
+            musicPlayer.dispose();
+            musicPlayer = null;
+        }
     }
 
     public static void playShoot() {
@@ -46,6 +60,7 @@ public final class AudioManager {
     public static void playDamage() {
         DAMAGEHIT.play();
     }
+
     public static void startEngineLoop() {
         ENGINE.setCycleCount(AudioClip.INDEFINITE);
         ENGINE.play();
@@ -53,7 +68,7 @@ public final class AudioManager {
 
     static {
         SHOOT.setVolume(0.4);
-        EXPLOSION.setVolume(0.3);
+        EXPLOSION.setVolume(0.1);
         PICKUP.setVolume(0.7);
         ENGINE.setVolume(0.3);
         LEVELUP.setVolume(0.4);

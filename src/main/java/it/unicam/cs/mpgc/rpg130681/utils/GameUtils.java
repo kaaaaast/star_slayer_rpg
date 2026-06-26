@@ -1,42 +1,84 @@
 package it.unicam.cs.mpgc.rpg130681.utils;
 
+import it.unicam.cs.mpgc.rpg130681.gamelogic.Camera;
 import it.unicam.cs.mpgc.rpg130681.model.entities.GameObject;
 import it.unicam.cs.mpgc.rpg130681.model.pickups.Tier;
 import java.util.Collection;
 import java.util.Random;
 
-//piccola classe di utilità che offre funzioni che non hanno stato, non appartengono propriamente
-//a classi specifiche, o possono essere usati da più parti nel codice
-
-public class GameUtils {
+/**
+ * Classe di utilità che offre funzioni che non hanno stato, non appartengono propriamente
+ * a classi specifiche, o possono essere usati da più parti nel codice
+ */
+public final class GameUtils {
 
     private static final Random random = new Random();
-    //ricerca l'entità più vicina (alla ship), utile principalmente
-    //per la meccanica del proiettile che ha traiettoria automatica verso l'entità distruttibile più vicina a esso.
-    public static <T extends GameObject & Destroyable> T getClosestEntity(GameObject source_object, Collection<T> objects) {
 
-        T closest_found = null;
-        float min_distance = Float.MAX_VALUE;
-        Vector2 source_position = source_object.getPosition();
+    /**
+     * Ricerca l'entità più vicina a un certo oggetto. Principalmente utile per i proiettili che acquisiscono il
+     * bersaglio automaticamente, scegliendo l'oggetto distruttibile più vicino.
+     * @param sourceObject l'oggetto sorgente.
+     * @param objects l'insieme degli oggetti bersaglio.
+     * @return l'oggetto {@link GameObject} e {@link Destroyable} più vicino, oppure {@code null} se l'insieme bersaglio è vuoto o invalido.
+     * @param <T> il tipo dell'oggetto da ritornare.
+     */
+    public static <T extends GameObject & Destroyable> T getClosestEntity(GameObject sourceObject, Collection<T> objects) {
+
+        T closestFound = null;
+        float minDistance = Float.MAX_VALUE;
+        Vector2 sourcePosition = sourceObject.getPosition();
 
         for (T obj : objects) {
 
-            if (obj.equals(source_object)) {
+            if (obj.equals(sourceObject)) {
                 continue;
             }
 
-            float this_distance = obj.getPosition().distanceFrom(source_position);
+            float thisDistance = obj.getPosition().distanceFrom(sourcePosition);
 
-            if (this_distance < min_distance) {
-                closest_found = obj;
-                min_distance = this_distance;
+            if (thisDistance < minDistance) {
+                closestFound = obj;
+                minDistance = thisDistance;
             }
         }
 
-        return closest_found;
+        return closestFound;
     }
 
-    //controlla se due entità collidono, principalmente rende la classe CollisionSystem più pulita.
+    public static <T extends GameObject & Destroyable>
+    T getClosestVisibleEntity(GameObject sourceObject, Collection<T> objects, Camera camera) {
+
+        T closestFound = null;
+        float minDistance = Float.MAX_VALUE;
+        Vector2 sourcePosition = sourceObject.getPosition();
+
+        for (T obj : objects) {
+
+            if (obj.equals(sourceObject)) {
+                continue;
+            }
+
+            if (!camera.isVisible(obj)) {
+                continue;
+            }
+
+            float thisDistance = obj.getPosition().distanceFrom(sourcePosition);
+
+            if (thisDistance < minDistance) {
+                closestFound = obj;
+                minDistance = thisDistance;
+            }
+        }
+
+        return closestFound;
+    }
+
+    /**
+     * Controlla se due oggetti generici collidono.
+     * @param a il primo oggetto.
+     * @param b il secondo oggetto.
+     * @return {@code true} se collidono.
+     */
     public static boolean isColliding(GameObject a, GameObject b) {
 
         if (a == null || b == null) {
@@ -47,16 +89,19 @@ public class GameUtils {
         return distance <= a.getRadius() + b.getRadius();
     }
 
-    //genera un tier randomicamente con una certa probabilità
-    public static Tier generate_random_tier() {
+    /**
+     * Genera un tier randomicamente, con una certa probabilità.
+     * @return un {@link Tier} casuale.
+     */
+    public static Tier generateRandomTier() {
 
-        float tier_rarity_picker = random.nextFloat();
+        float tierRarityPicker = random.nextFloat();
 
-        if (tier_rarity_picker < 0.5f) {
+        if (tierRarityPicker < 0.5f) {
             return Tier.SMALL;
         }
 
-        if (tier_rarity_picker < 0.8f) {
+        if (tierRarityPicker < 0.8f) {
             return Tier.MEDIUM;
         }
 
