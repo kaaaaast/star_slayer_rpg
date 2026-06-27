@@ -4,8 +4,8 @@ navicella tramite i materiali ottenuti, il tutto facendo attenzione a non termin
 
 # 🌌 Come eseguire il gioco
 Per eseguire il gioco è sufficiente:
-- JDK 25
-- Clonazione della repo, cd star_slayer_rpg, gradlew.bat build, gradlew.bat run
+- JDK 25;
+- Clonazione della repo, cd star_slayer_rpg, build e run del progetto;
 
 Per i (pochi) comandi necessari basta consultare le Informazioni del gioco nel menù apposito.
 
